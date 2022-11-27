@@ -1,0 +1,49 @@
+.content {
+  text-align: center;
+
+  .image {
+    display: block;
+    margin: 0 auto;
+    width: 40%;
+  }
+
+  .title {
+    margin: 50px 0 0;
+    font-size: 36px;
+    font-weight: 500;
+  }
+
+  .titleSub {
+    font-size: 20px;
+  }
+
+  .buttonToMenu {
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    border: none;
+    background-color: #fe5f1e;
+    color: #fff;
+    border-radius: 30px;
+    padding: 12px 24px;
+    max-width: 100%;
+    text-align: center;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s;
+    margin-top: 24px;
+  }
+
+  .buttonToMenu:hover {
+    background-color: darken(#fe5f1e, 8%);
+  }
+
+  .buttonToMenu:active {
+    background-color: darken(#fe5f1e, 12%);
+    transform: translateY(1px);
+  }
+
+  .details {
+    margin-top: 15px;
+    color: #5c6370;
+    font-size: 16px;
+  }
+}
