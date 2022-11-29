@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import ReactDOM from 'react-dom/client';
 
 import App from './components/App';

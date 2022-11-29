@@ -8,11 +8,11 @@ const PizzaBlock = ({
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
-  const handleSwitchType = (index) => () => {
+  const handleChooseType = (index) => () => {
     setActiveType(index);
   };
 
-  const handleSwitchSize = (index) => () => {
+  const handleChooseSize = (index) => () => {
     setActiveSize(index);
   };
 
@@ -32,7 +32,7 @@ const PizzaBlock = ({
             <li
               key={id}
               className={activeSize === index ? 'active' : ''}
-              onClick={handleSwitchSize(index)}
+              onClick={handleChooseSize(index)}
             >
               {size}
             </li>
@@ -45,7 +45,7 @@ const PizzaBlock = ({
             <li
               key={id}
               className={activeType === index ? 'active' : ''}
-              onClick={handleSwitchType(index)}
+              onClick={handleChooseType(index)}
             >
               {typeNames[type]}
             </li>

@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const categories = [
   {
     category: 'Все',
@@ -27,24 +25,20 @@ const categories = [
   },
 ];
 
-const Categories = () => {
-  const [active, setActive] = useState(0);
-
-  const handleSwitchCategory = (index) => () => {
-    setActive(index);
-  };
-
-  return (
-    <div className="categories">
-      <ul>
-        {categories.map(({ category, id }, index) => (
-          <li key={id} className={active === index ? 'active' : ''} onClick={handleSwitchCategory(index)}>
-            {category}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+const Categories = ({ categoryId, handleChoose }) => (
+  <div className="categories">
+    <ul>
+      {categories.map(({ category, id }) => (
+        <li
+          key={id}
+          className={categoryId === id ? 'active' : ''}
+          onClick={handleChoose(id)}
+        >
+          {category}
+        </li>
+      ))}
+    </ul>
+  </div>
+);
 
 export default Categories;
