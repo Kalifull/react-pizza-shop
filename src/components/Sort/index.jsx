@@ -1,34 +1,23 @@
 import { useState } from 'react';
 
-const lists = [
-  {
-    name: 'популярности',
-    sort: 'rating',
-    id: 0,
-  },
-  {
-    name: 'цене',
-    sort: 'price',
-    id: 1,
-  },
-  {
-    name: 'алфавиту',
-    sort: 'title',
-    id: 2,
-  },
-];
+import { sortTypelists } from '../../constants';
 
 const Sort = ({ sortType, handleChoose }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const handleChooseSortType = (index) => () => {
-    handleChoose(index);
-    setOpen(false);
+  const handleChooseSortType = (currentSortTypelist) => () => {
+    handleChoose(currentSortTypelist);
+    setIsOpen(false);
+  };
+
+  const handleOpen = (open) => () => {
+    setIsOpen(!open);
   };
 
   return (
     <div className="sort">
       <div className="sort__label">
+        <b>Сортировка по:</b>
         <svg
           width="10"
           height="6"
@@ -41,19 +30,18 @@ const Sort = ({ sortType, handleChoose }) => {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span onClick={() => setOpen(!open)}>{sortType.name}</span>
+        <span onClick={handleOpen(isOpen)}>{sortType.name}</span>
       </div>
-      {open && (
+      {isOpen && (
         <div className="sort__popup">
           <ul>
-            {lists.map((list) => (
+            {sortTypelists.map((sortTypelist) => (
               <li
-                key={list.id}
-                className={sortType.sort === list.sort ? 'active' : ''}
-                onClick={handleChooseSortType(list)}
+                key={sortTypelist.id}
+                className={sortType.sortProperty === sortTypelist.sortProperty ? 'active' : ''}
+                onClick={handleChooseSortType(sortTypelist)}
               >
-                {list.name}
+                {sortTypelist.name}
               </li>
             ))}
           </ul>

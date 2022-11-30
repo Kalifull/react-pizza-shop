@@ -5,35 +5,41 @@ import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import SkeletonBlock from '../../components/SkeletonBlock';
 
+import routes from '../../routes';
+
 const Home = () => {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCategoryId] = useState(0);
   const [sortType, setSortType] = useState({
-    name: 'популярности',
-    sort: 'rating',
+    name: 'популярность по убыванию',
+    sortProperty: '-rating',
     id: 0,
   });
 
+  const currentCategory = categoryId > 0 ? `category=${categoryId}` : '';
+  const sortTypeProperty = sortType.sortProperty.replace('-', '');
+  const orderTypeProperty = sortType.sortProperty.includes('-') ? 'desc' : 'asc';
+
   useEffect(() => {
     setIsLoading(true);
+
     fetch(
-      `https://6380e160786e112fe1bce82e.mockapi.io/items?${
-        categoryId > 0 ? `category=${categoryId}` : ''
-      }&sortBy=${sortType.sort}&order=desc`,
+      `${routes.getItems()}${currentCategory}&sortBy=${sortTypeProperty}&order=${orderTypeProperty}`,
     )
       .then((response) => response.json())
       .then((response) => setItems(response))
       .then(() => setIsLoading(false));
+
     window.scrollTo(0, 0);
-  }, [categoryId, sortType]);
+  }, [currentCategory, sortTypeProperty, orderTypeProperty]);
 
   const handleChooseCategory = (currentCategoryId) => () => {
     setCategoryId(currentCategoryId);
   };
 
-  const handleChooseSortType = (index) => {
-    setSortType(index);
+  const handleChooseSortType = (currentSortTypelist) => {
+    setSortType(currentSortTypelist);
   };
 
   return (
@@ -45,11 +51,7 @@ const Home = () => {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(8)].map((_, index) => (
-            <div key={index}>
-              <SkeletonBlock />
-            </div>
-          ))
+          ? [...new Array(8)].map((_, index) => <SkeletonBlock key={index} />)
           : items.map(({
             id, title, price, imageUrl, sizes, types,
           }) => (

@@ -1,29 +1,4 @@
-const categories = [
-  {
-    category: 'Все',
-    id: 0,
-  },
-  {
-    category: 'Мясные',
-    id: 1,
-  },
-  {
-    category: 'Вегетарианская',
-    id: 2,
-  },
-  {
-    category: 'Гриль',
-    id: 3,
-  },
-  {
-    category: 'Острые',
-    id: 4,
-  },
-  {
-    category: 'Закрытые',
-    id: 5,
-  },
-];
+import { categories } from '../../constants';
 
 const Categories = ({ categoryId, handleChoose }) => (
   <div className="categories">

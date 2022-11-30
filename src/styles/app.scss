@@ -356,3 +356,13 @@ body {
     }
   }
 }
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $orange;
+  border-radius: 4px;
+  border: 1px solid $black;
+}
