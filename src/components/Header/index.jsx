@@ -17,7 +17,7 @@ const Header = () => (
         </div>
       </Link>
       <div className="header__cart">
-        <Link to={routes.CartPathPage()} className="button button--cart">
+        <Link to={routes.CartPathPage()} className="button button__cart">
           <span>520 ₽</span>
           <div className="button__delimiter" />
           <svg

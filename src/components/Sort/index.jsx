@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { sortTypelists } from '../../constants';
+import { sortTypeLists } from '../../constants';
 
 const Sort = ({ sortType, handleChoose }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleChooseSortType = (currentSortTypelist) => () => {
-    handleChoose(currentSortTypelist);
+  const handleChooseSortType = (currentSortTypeList) => () => {
+    handleChoose(currentSortTypeList);
     setIsOpen(false);
   };
 
@@ -35,13 +35,13 @@ const Sort = ({ sortType, handleChoose }) => {
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortTypelists.map((sortTypelist) => (
+            {sortTypeLists.map((sortTypeList) => (
               <li
-                key={sortTypelist.id}
-                className={sortType.sortProperty === sortTypelist.sortProperty ? 'active' : ''}
-                onClick={handleChooseSortType(sortTypelist)}
+                key={sortTypeList.id}
+                className={sortType.sortProperty === sortTypeList.sortProperty ? 'active' : ''}
+                onClick={handleChooseSortType(sortTypeList)}
               >
-                {sortTypelist.name}
+                {sortTypeList.name}
               </li>
             ))}
           </ul>

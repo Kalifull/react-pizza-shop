@@ -1,4 +1,4 @@
-export const sortTypelists = [
+export const sortTypeLists = [
   {
     name: 'популярность по убыванию',
     sortProperty: '-rating',

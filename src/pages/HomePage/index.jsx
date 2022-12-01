@@ -38,8 +38,8 @@ const Home = () => {
     setCategoryId(currentCategoryId);
   };
 
-  const handleChooseSortType = (currentSortTypelist) => {
-    setSortType(currentSortTypelist);
+  const handleChooseSortType = (currentSortTypeList) => {
+    setSortType(currentSortTypeList);
   };
 
   return (
