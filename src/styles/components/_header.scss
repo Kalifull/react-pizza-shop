@@ -9,11 +9,16 @@
     align-items: center;
     justify-content: space-between;
 
-    @media (max-width: 739px) {
+    @media (max-width: 1068px) {
       flex-direction: column;
 
       .header__cart {
-        margin-top: 0.4em;
+        margin-top: 2em;
+      }
+
+      .Search_root__eiX89 {
+        margin-top: 2em;
+        margin-right: 0;
       }
 
       .header__logo {

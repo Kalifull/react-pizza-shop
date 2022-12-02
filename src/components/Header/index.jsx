@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
 
+import Search from '../Search';
+
 import routes from '../../routes';
 
 import PizzaLogo from '../../assets/images/pizza-logo.svg';
 
-const Header = () => (
+const Header = ({ searchValue, setSearchValue }) => (
   <div className="header">
     <div className="container">
       <Link to={routes.HomePathPage()}>
@@ -16,6 +18,7 @@ const Header = () => (
           </div>
         </div>
       </Link>
+      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="header__cart">
         <Link to={routes.CartPathPage()} className="button button__cart">
           <span>520 ₽</span>

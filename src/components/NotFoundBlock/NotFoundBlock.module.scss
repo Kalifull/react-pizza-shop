@@ -4,7 +4,8 @@
   .image {
     display: block;
     margin: 0 auto;
-    width: 35%;
+    width: 550px;
+    height: 451px;
   }
 
   .title {
@@ -45,5 +46,12 @@
     margin-top: 15px;
     color: #5c6370;
     font-size: 16px;
+  }
+
+  @media (max-width: 739px) {
+    .image {
+      width: 90%;
+      height: 100%;
+    }
   }
 }

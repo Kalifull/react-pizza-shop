@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 const PizzaBlock = ({
-  title, price, image, sizes, types,
+  title, price, imageUrl, sizes, types,
 }) => {
   const [count, setCount] = useState(0);
   const [activeType, setActiveType] = useState(0);
@@ -24,7 +24,7 @@ const PizzaBlock = ({
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={image} alt="Pizza" />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
