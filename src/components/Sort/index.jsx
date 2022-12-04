@@ -1,17 +1,24 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { sortTypeLists } from '../../constants';
+import { setSortType } from '../../store/slices/sortSlice';
+import { selectSortState } from '../../store/slices/selectors';
 
-const Sort = ({ sortType, handleChoose }) => {
+import { sortTypes } from '../../constants';
+
+const Sort = () => {
+  const dispatch = useDispatch();
+  const { currentSortName, currentSortId } = useSelector(selectSortState);
+
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleChooseSortType = (currentSortTypeList) => () => {
-    handleChoose(currentSortTypeList);
-    setIsOpen(false);
-  };
 
   const handleOpen = (open) => () => {
     setIsOpen(!open);
+  };
+
+  const handleChooseSortType = ({ name, sortProperty, id }) => () => {
+    dispatch(setSortType({ name, sortProperty, id }));
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -30,18 +37,18 @@ const Sort = ({ sortType, handleChoose }) => {
             fill="#2C2C2C"
           />
         </svg>
-        <span onClick={handleOpen(isOpen)}>{sortType.name}</span>
+        <span onClick={handleOpen(isOpen)}>{currentSortName}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortTypeLists.map((sortTypeList) => (
+            {sortTypes.map(({ name, sortProperty, id }) => (
               <li
-                key={sortTypeList.id}
-                className={sortType.sortProperty === sortTypeList.sortProperty ? 'active' : ''}
-                onClick={handleChooseSortType(sortTypeList)}
+                key={id}
+                className={currentSortId === id ? 'active' : ''}
+                onClick={handleChooseSortType({ name, sortProperty, id })}
               >
-                {sortTypeList.name}
+                {name}
               </li>
             ))}
           </ul>

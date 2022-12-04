@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 
 import Header from './Header';
@@ -12,18 +12,16 @@ const App = () => {
   const [searchValue, setSearchValue] = useState('');
 
   return (
-    <BrowserRouter>
-      <div className="wrapper">
-        <Header searchValue={searchValue} setSearchValue={setSearchValue} />
-        <div className="content">
-          <Routes>
-            <Route path={routes.HomePathPage()} element={<HomePage searchValue={searchValue} />} />
-            <Route path={routes.CartPathPage()} element={<CartPage />} />
-            <Route path={routes.NotFoundPage()} element={<NotFoundPage />} />
-          </Routes>
-        </div>
+    <div className="wrapper">
+      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+      <div className="content">
+        <Routes>
+          <Route path={routes.HomePathPage()} element={<HomePage searchValue={searchValue} />} />
+          <Route path={routes.CartPathPage()} element={<CartPage />} />
+          <Route path={routes.NotFoundPage()} element={<NotFoundPage />} />
+        </Routes>
       </div>
-    </BrowserRouter>
+    </div>
   );
 };
 
