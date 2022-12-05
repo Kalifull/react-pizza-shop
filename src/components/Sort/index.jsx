@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setSortType } from '../../store/slices/sortSlice';
-import { selectSortState } from '../../store/slices/selectors';
+import { setSortType } from '../../store/slices/filter/filterSlice';
+import { selectSortState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
 

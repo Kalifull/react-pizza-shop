@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCategoryId } from '../../store/slices/filterSlice';
-import { selectCategoryState } from '../../store/slices/selectors';
+import { setCategoryId } from '../../store/slices/filter/filterSlice';
+import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import { categories } from '../../constants';
 
 const Categories = () => {
   const dispatch = useDispatch();
-  const { currentCategoryId } = useSelector(selectCategoryState);
+  const { currentCategoryId } = useSelector(selectFilterState);
 
   const handleChooseCategory = (categoryId) => () => {
     dispatch(setCategoryId({ categoryId }));

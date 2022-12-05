@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <div className="wrapper">
-      <Header searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Header setSearchValue={setSearchValue} />
       <div className="content">
         <Routes>
           <Route path={routes.HomePathPage()} element={<HomePage searchValue={searchValue} />} />

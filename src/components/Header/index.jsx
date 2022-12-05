@@ -6,7 +6,7 @@ import routes from '../../routes';
 
 import PizzaLogo from '../../assets/images/pizza-logo.svg';
 
-const Header = ({ searchValue, setSearchValue }) => (
+const Header = ({ setSearchValue }) => (
   <div className="header">
     <div className="container">
       <Link to={routes.HomePathPage()}>
@@ -18,7 +18,7 @@ const Header = ({ searchValue, setSearchValue }) => (
           </div>
         </div>
       </Link>
-      <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+      <Search setSearchValue={setSearchValue} />
       <div className="header__cart">
         <Link to={routes.CartPathPage()} className="button button__cart">
           <span>520 ₽</span>

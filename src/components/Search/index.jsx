@@ -1,23 +1,32 @@
-import { useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+import { useDebounce } from '../../hooks';
 
 import styles from './Search.module.scss';
 
-const Search = ({ searchValue, setSearchValue }) => {
+const Search = ({ setSearchValue }) => {
+  const [inputValue, setInputValue] = useState('');
   const inputRef = useRef();
 
-  const handleChange = ({ target: { value } }) => {
-    setSearchValue(value);
+  const debouncedInputValue = useDebounce(inputValue, 500);
+
+  useEffect(() => {
+    setSearchValue(debouncedInputValue);
+  }, [debouncedInputValue]);
+
+  const handleClickClear = () => {
+    setInputValue('');
+    setSearchValue('');
+    inputRef.current?.focus();
   };
 
-  const handleClick = () => {
-    setSearchValue('');
-    inputRef.current.focus();
+  const handleChangeValue = ({ target: { value } }) => {
+    setInputValue(value);
   };
 
   return (
     <div className={styles.root}>
       <svg className={styles.search} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-        <title />
         <g id="search">
           <path d="M29.71,28.29l-6.5-6.5-.07,0a12,12,0,1,0-1.39,1.39s0,.05,0,.07l6.5,6.5a1,1,0,0,0,1.42,0A1,1,0,0,0,29.71,28.29ZM14,24A10,10,0,1,1,24,14,10,10,0,0,1,14,24Z" />
         </g>
@@ -25,11 +34,11 @@ const Search = ({ searchValue, setSearchValue }) => {
       <input
         className={styles.input}
         ref={inputRef}
-        value={searchValue}
-        onChange={handleChange}
+        value={inputValue}
+        onChange={handleChangeValue}
         placeholder="Поиск пиццы..."
       />
-      {searchValue && (
+      {inputValue && (
         <svg
           className={styles.clear}
           height="14px"
@@ -37,7 +46,7 @@ const Search = ({ searchValue, setSearchValue }) => {
           viewBox="0 0 14 14"
           width="14px"
           xmlns="http://www.w3.org/2000/svg"
-          onClick={handleClick}
+          onClick={handleClickClear}
         >
           <title />
           <desc />

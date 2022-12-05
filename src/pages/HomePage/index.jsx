@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -7,40 +8,35 @@ import PizzaBlock from '../../components/PizzaBlock';
 import Pagination from '../../components/Pagination';
 import SkeletonBlock from '../../components/SkeletonBlock';
 
-import { selectCategoryState, selectSortState } from '../../store/slices/selectors';
+import { selectFilterState, selectSortState } from '../../store/slices/filter/selectors';
 
 import routes from '../../routes';
 
 const Home = ({ searchValue }) => {
-  const { currentCategoryId } = useSelector(selectCategoryState);
+  const { currentPageNumber, currentCategoryId } = useSelector(selectFilterState);
   const { currentSortProperty } = useSelector(selectSortState);
 
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPageCount, setCurrentPageCount] = useState(1);
 
-  const paginate = `page=${currentPageCount}&limit=4&`;
+  const paginate = `page=${currentPageNumber}&limit=4&`;
   const searchProperty = searchValue ? `&search=${searchValue}` : '';
-  const currentCategory = currentCategoryId > 0 ? `category=${currentCategoryId}` : '';
   const sortTypeProperty = `&sortBy=${currentSortProperty.replace('-', '')}`;
+  const currentCategory = currentCategoryId > 0 ? `category=${currentCategoryId}` : '';
   const orderTypeProperty = currentSortProperty.includes('-') ? '&order=desc' : '&order=asc';
 
   useEffect(() => {
     setIsLoading(true);
 
-    fetch(
-      `${routes.getItems()}${paginate}${currentCategory}${sortTypeProperty}${orderTypeProperty}${searchProperty}`,
-    )
-      .then((response) => response.json())
-      .then((response) => setItems(response))
+    axios
+      .get(
+        `${routes.getItems()}${paginate}${currentCategory}${sortTypeProperty}${orderTypeProperty}${searchProperty}`,
+      )
+      .then(({ data }) => setItems(data))
       .then(() => setIsLoading(false));
 
     window.scrollTo(0, 0);
   }, [currentCategory, sortTypeProperty, orderTypeProperty, searchProperty, paginate]);
-
-  const handleChoosePage = (pageCount) => {
-    setCurrentPageCount(pageCount);
-  };
 
   const pizzaItems = items.map((item) => <PizzaBlock key={item.id} {...item} />);
 
@@ -54,7 +50,7 @@ const Home = ({ searchValue }) => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{!isLoading ? pizzaItems : skeletons}</div>
-      <Pagination handleChoose={handleChoosePage} />
+      <Pagination />
     </div>
   );
 };
