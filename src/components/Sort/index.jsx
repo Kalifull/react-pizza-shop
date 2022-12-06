@@ -8,7 +8,7 @@ import { sortTypes } from '../../constants';
 
 const Sort = () => {
   const dispatch = useDispatch();
-  const { currentSortName, currentSortId } = useSelector(selectSortState);
+  const { name, id } = useSelector(selectSortState);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -16,8 +16,8 @@ const Sort = () => {
     setIsOpen(!open);
   };
 
-  const handleChooseSortType = ({ name, sortProperty, id }) => () => {
-    dispatch(setSortType({ name, sortProperty, id }));
+  const handleChooseSortType = (sortType) => () => {
+    dispatch(setSortType({ sortType }));
     setIsOpen(!isOpen);
   };
 
@@ -37,18 +37,18 @@ const Sort = () => {
             fill="#2C2C2C"
           />
         </svg>
-        <span onClick={handleOpen(isOpen)}>{currentSortName}</span>
+        <span onClick={handleOpen(isOpen)}>{name}</span>
       </div>
       {isOpen && (
         <div className="sort__popup">
           <ul>
-            {sortTypes.map(({ name, sortProperty, id }) => (
+            {sortTypes.map((sortType) => (
               <li
-                key={id}
-                className={currentSortId === id ? 'active' : ''}
-                onClick={handleChooseSortType({ name, sortProperty, id })}
+                key={sortType.id}
+                className={id === sortType.id ? 'active' : ''}
+                onClick={handleChooseSortType(sortType)}
               >
-                {name}
+                {sortType.name}
               </li>
             ))}
           </ul>

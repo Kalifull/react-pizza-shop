@@ -7,10 +7,10 @@ import { categories } from '../../constants';
 
 const Categories = () => {
   const dispatch = useDispatch();
-  const { currentCategoryId } = useSelector(selectFilterState);
+  const { categoryId } = useSelector(selectFilterState);
 
-  const handleChooseCategory = (categoryId) => () => {
-    dispatch(setCategoryId({ categoryId }));
+  const handleChooseCategory = (id) => () => {
+    dispatch(setCategoryId({ category: id }));
   };
 
   return (
@@ -19,7 +19,7 @@ const Categories = () => {
         {categories.map(({ category, id }) => (
           <li
             key={id}
-            className={currentCategoryId === id ? 'active' : ''}
+            className={categoryId === id ? 'active' : ''}
             onClick={handleChooseCategory(id)}
           >
             {category}
