@@ -80,7 +80,7 @@ const Home = ({ searchValue }) => {
     window.scrollTo(0, 0);
   }, [searchValue, pageNumber, sortProperty, categoryId]);
 
-  const pizzaItems = items.map((item) => <PizzaBlock key={item.id} {...item} />);
+  const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
 
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
 

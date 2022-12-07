@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSortType } from '../../store/slices/filter/filterSlice';
@@ -7,10 +7,22 @@ import { selectSortState } from '../../store/slices/filter/selectors';
 import { sortTypes } from '../../constants';
 
 const Sort = () => {
+  const sortRef = useRef();
   const dispatch = useDispatch();
+  const [isOpen, setIsOpen] = useState(false);
+
   const { name, id } = useSelector(selectSortState);
 
-  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    const handleClickOutside = ({ path }) => {
+      if (!path.includes(sortRef.current)) {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
 
   const handleOpen = (open) => () => {
     setIsOpen(!open);
@@ -18,11 +30,11 @@ const Sort = () => {
 
   const handleChooseSortType = (sortType) => () => {
     dispatch(setSortType({ sortType }));
-    setIsOpen(!isOpen);
+    setIsOpen(false);
   };
 
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <b>Сортировка по:</b>
         <svg
@@ -45,7 +57,7 @@ const Sort = () => {
             {sortTypes.map((sortType) => (
               <li
                 key={sortType.id}
-                className={id === sortType.id ? 'active' : ''}
+                className={sortType.id === id ? 'active' : ''}
                 onClick={handleChooseSortType(sortType)}
               >
                 {sortType.name}

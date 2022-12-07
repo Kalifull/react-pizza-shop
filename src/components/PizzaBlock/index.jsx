@@ -1,10 +1,13 @@
-/* eslint-disable react/no-array-index-key */
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { addItem } from '../../store/slices/cart/cartSlice';
 
 const PizzaBlock = ({
-  title, price, imageUrl, sizes, types,
+  title, price, currentId, imageUrl, sizes, types,
 }) => {
-  const [count, setCount] = useState(0);
+  const dispatch = useDispatch();
+
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
@@ -16,11 +19,27 @@ const PizzaBlock = ({
     setActiveSize(index);
   };
 
-  const handleClick = () => {
-    setCount(count + 1);
+  const handleAddItem = () => {
+    const item = {
+      title,
+      price,
+      imageUrl,
+      id: currentId,
+      type: types[activeType].type,
+      size: sizes[activeSize].size,
+    };
+    dispatch(addItem({ item }));
   };
 
-  const typeNames = ['Традиционное', 'Тонкое'];
+  const currentCount = useSelector((state) => {
+    const { items } = state.cartInfo;
+    const count = items.find(
+      ({ id, type, size }) => id === currentId
+        && type === types[activeType].type
+        && size === sizes[activeSize].size,
+    )?.count;
+    return count ?? 0;
+  });
 
   return (
     <div className="pizza-block">
@@ -47,14 +66,18 @@ const PizzaBlock = ({
               className={activeType === index ? 'active' : ''}
               onClick={handleChooseType(index)}
             >
-              {typeNames[type]}
+              {type}
             </li>
           ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`от ${price}`}</div>
-        <button onClick={handleClick} type="button" className="button button__outline button__add">
+        <button
+          onClick={handleAddItem}
+          type="button"
+          className="button button__outline button__add"
+        >
           <svg
             width="12"
             height="12"
@@ -68,7 +91,7 @@ const PizzaBlock = ({
             />
           </svg>
           <span>Добавить</span>
-          <i>{count}</i>
+          <i>{currentCount}</i>
         </button>
       </div>
     </div>

@@ -23,10 +23,23 @@ export const filterSlice = createSlice({
     setSortType(state, { payload: { sortType } }) {
       state.sortType = sortType;
     },
-    setFilter(state, { payload: { sortType, category, page } }) {
-      state.sortType = sortType;
-      state.categoryId = +category;
-      state.pageNumber = +page;
+    setFilter(state, action) {
+      const {
+        payload: { sortType, category, page },
+      } = action;
+      if (Object.keys(action.payload).length) {
+        state.sortType = sortType;
+        state.categoryId = +category;
+        state.pageNumber = +page;
+      } else {
+        state.currentPage = 1;
+        state.categoryId = 0;
+        state.sortType = {
+          name: 'популярность по убыванию',
+          sortProperty: '-rating',
+          id: 0,
+        };
+      }
     },
   },
 });
