@@ -2,22 +2,26 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CartItem from '../../components/CartItem';
+import EmptyCart from '../../components/EmptyCart';
 
-import { clearItems } from '../../store/slices/cart/cartSlice';
-import { selectСartState } from '../../store/slices/cart/selectors';
+import { clearAllItems } from '../../store/slices/cart/cartSlice';
+import { selectСartState, selectCurrentNumberOfItems } from '../../store/slices/cart/selectors';
 
 import routes from '../../routes';
 
 const CartPage = () => {
   const dispatch = useDispatch();
 
-  const { items } = useSelector(selectСartState);
+  const { totalPrice, items } = useSelector(selectСartState);
+  const currentNumber = useSelector(selectCurrentNumberOfItems);
 
-  const handleClearItems = () => {
-    dispatch(clearItems());
+  const handleClearAllItems = () => {
+    if (window.confirm('Вы действительно хотите очистить корзину?')) {
+      dispatch(clearAllItems());
+    }
   };
 
-  return (
+  return totalPrice ? (
     <div className="container__cart">
       <div className="cart">
         <div className="cart__top">
@@ -53,7 +57,7 @@ const CartPage = () => {
             </svg>
             Корзина
           </h2>
-          <div onClick={handleClearItems} className="cart__clear">
+          <div onClick={handleClearAllItems} className="cart__clear">
             <svg
               width="20"
               height="20"
@@ -98,6 +102,20 @@ const CartPage = () => {
           {items.map((item, index) => (
             <CartItem key={index} {...item} />
           ))}
+        </div>
+        <div className="cart__bottom">
+          <div className="cart__bottom-details">
+            <span>
+              Всего пицц:
+              {' '}
+              <b>{`${currentNumber} шт.`}</b>
+            </span>
+            <span>
+              Сумма заказа:
+              {' '}
+              <b>{`${totalPrice} ₽`}</b>
+            </span>
+          </div>
           <div className="cart__bottom-buttons">
             <Link
               to={routes.HomePathPage()}
@@ -128,6 +146,8 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <EmptyCart />
   );
 };
 

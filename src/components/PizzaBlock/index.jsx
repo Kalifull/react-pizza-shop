@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItem } from '../../store/slices/cart/cartSlice';
+import { addOneItem } from '../../store/slices/cart/cartSlice';
 
 const PizzaBlock = ({
   title, price, currentId, imageUrl, sizes, types,
@@ -19,7 +19,7 @@ const PizzaBlock = ({
     setActiveSize(index);
   };
 
-  const handleAddItem = () => {
+  const handleAddOneItem = () => {
     const item = {
       title,
       price,
@@ -28,7 +28,7 @@ const PizzaBlock = ({
       type: types[activeType].type,
       size: sizes[activeSize].size,
     };
-    dispatch(addItem({ item }));
+    dispatch(addOneItem({ item }));
   };
 
   const currentCount = useSelector((state) => {
@@ -74,7 +74,7 @@ const PizzaBlock = ({
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">{`от ${price}`}</div>
         <button
-          onClick={handleAddItem}
+          onClick={handleAddOneItem}
           type="button"
           className="button button__outline button__add"
         >
