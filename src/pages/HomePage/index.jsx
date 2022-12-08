@@ -10,7 +10,10 @@ import PizzaBlock from '../../components/PizzaBlock';
 import Pagination from '../../components/Pagination';
 import SkeletonBlock from '../../components/SkeletonBlock';
 
+import { setItems } from '../../store/slices/item/itemSlice';
 import { setFilter } from '../../store/slices/filter/filterSlice';
+
+import { selectItemsState } from '../../store/slices/item/selectors';
 import { selectFilterState, selectSortState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
@@ -23,11 +26,11 @@ const Home = ({ searchValue }) => {
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { pageNumber, categoryId } = useSelector(selectFilterState);
+  const { items } = useSelector(selectItemsState);
   const { sortProperty } = useSelector(selectSortState);
+  const { pageNumber, categoryId } = useSelector(selectFilterState);
 
   // Если параметры фильтрафции были изменены и был первый рендер
   useEffect(() => {
@@ -53,7 +56,7 @@ const Home = ({ searchValue }) => {
     }
   }, []);
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
 
     const paginate = `page=${pageNumber}&limit=4&`;
@@ -62,12 +65,18 @@ const Home = ({ searchValue }) => {
     const sortTypeProperty = `&sortBy=${sortProperty.replace('-', '')}`;
     const orderTypeProperty = sortProperty.includes('-') ? '&order=desc' : '&order=asc';
 
-    axios
-      .get(
+    try {
+      const { data } = await axios.get(
         `${routes.getItems()}${paginate}${category}${sortTypeProperty}${orderTypeProperty}${searchProperty}`,
-      )
-      .then(({ data }) => setItems(data))
-      .then(() => setIsLoading(false));
+      );
+      dispatch(setItems({ items: data }));
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+
+    window.scrollTo(0, 0);
   };
 
   // Если тукущий рендер - первый, то выполняем запрос данных
@@ -75,9 +84,7 @@ const Home = ({ searchValue }) => {
     if (!isSearch.current) {
       fetchPizzas();
     }
-
     isSearch.current = false;
-    window.scrollTo(0, 0);
   }, [searchValue, pageNumber, sortProperty, categoryId]);
 
   const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
