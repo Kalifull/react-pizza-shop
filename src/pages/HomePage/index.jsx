@@ -1,6 +1,5 @@
 import qs from 'qs';
-import axios from 'axios';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -10,14 +9,13 @@ import PizzaBlock from '../../components/PizzaBlock';
 import Pagination from '../../components/Pagination';
 import SkeletonBlock from '../../components/SkeletonBlock';
 
-import { setItems } from '../../store/slices/item/itemSlice';
 import { setFilter } from '../../store/slices/filter/filterSlice';
 
 import { selectItemsState } from '../../store/slices/item/selectors';
 import { selectFilterState, selectSortState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
-import routes from '../../routes';
+import fetchItems from '../../services/fetchItems';
 
 const Home = ({ searchValue }) => {
   const dispatch = useDispatch();
@@ -26,11 +24,12 @@ const Home = ({ searchValue }) => {
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const { items } = useSelector(selectItemsState);
   const { sortProperty } = useSelector(selectSortState);
+  const { items, loadingStatus } = useSelector(selectItemsState);
   const { pageNumber, categoryId } = useSelector(selectFilterState);
+
+  const isLoading = loadingStatus === 'loading';
 
   // Если параметры фильтрафции были изменены и был первый рендер
   useEffect(() => {
@@ -43,6 +42,7 @@ const Home = ({ searchValue }) => {
 
       navigate(`?${queryString}`);
     }
+
     isMounted.current = true;
   }, [pageNumber, categoryId, sortProperty]);
 
@@ -56,25 +56,22 @@ const Home = ({ searchValue }) => {
     }
   }, []);
 
-  const fetchPizzas = async () => {
-    setIsLoading(true);
-
+  const getData = () => {
     const paginate = `page=${pageNumber}&limit=4&`;
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const searchProperty = searchValue ? `&search=${searchValue}` : '';
     const sortTypeProperty = `&sortBy=${sortProperty.replace('-', '')}`;
     const orderTypeProperty = sortProperty.includes('-') ? '&order=desc' : '&order=asc';
 
-    try {
-      const { data } = await axios.get(
-        `${routes.getItems()}${paginate}${category}${sortTypeProperty}${orderTypeProperty}${searchProperty}`,
-      );
-      dispatch(setItems({ items: data }));
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(
+      fetchItems({
+        category,
+        page: paginate,
+        search: searchProperty,
+        sort: sortTypeProperty,
+        order: orderTypeProperty,
+      }),
+    );
 
     window.scrollTo(0, 0);
   };
@@ -82,13 +79,13 @@ const Home = ({ searchValue }) => {
   // Если тукущий рендер - первый, то выполняем запрос данных
   useEffect(() => {
     if (!isSearch.current) {
-      fetchPizzas();
+      getData();
     }
+
     isSearch.current = false;
   }, [searchValue, pageNumber, sortProperty, categoryId]);
 
   const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
-
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
 
   return (
@@ -98,7 +95,7 @@ const Home = ({ searchValue }) => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{!isLoading ? pizzaItems : skeletons}</div>
+      <div className="content__items">{isLoading ? skeletons : pizzaItems}</div>
       <Pagination />
     </div>
   );

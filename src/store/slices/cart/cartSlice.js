@@ -14,7 +14,7 @@ export const cartSlice = createSlice({
     addOneItem(state, { payload: { item } }) {
       const currentItem = findCurrentItem(state, item);
       if (!currentItem) {
-        state.items.push({ ...item, count: 1 });
+        state.items.unshift({ ...item, count: 1 });
         state.totalPrice = calcTotalPrice(state);
       } else {
         currentItem.count += 1;
