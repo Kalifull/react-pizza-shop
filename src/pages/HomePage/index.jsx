@@ -7,7 +7,9 @@ import Sort from '../../components/Sort';
 import Categories from '../../components/Categories';
 import PizzaBlock from '../../components/PizzaBlock';
 import Pagination from '../../components/Pagination';
+import ErrorBlock from '../../components/ErrorBlock';
 import SkeletonBlock from '../../components/SkeletonBlock';
+import NotFoundSearch from '../../components/NotFoundSearch';
 
 import { setFilter } from '../../store/slices/filter/filterSlice';
 
@@ -26,10 +28,8 @@ const Home = ({ searchValue }) => {
   const isMounted = useRef(false);
 
   const { sortProperty } = useSelector(selectSortState);
-  const { items, loadingStatus } = useSelector(selectItemsState);
+  const { items, loadingStatus, error } = useSelector(selectItemsState);
   const { pageNumber, categoryId } = useSelector(selectFilterState);
-
-  const isLoading = loadingStatus === 'loading';
 
   // Если параметры фильтрафции были изменены и был первый рендер
   useEffect(() => {
@@ -88,15 +88,34 @@ const Home = ({ searchValue }) => {
   const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
 
+  const mapping = {
+    loading: () => skeletons,
+    idle: () => pizzaItems,
+  };
+
+  const Component = mapping[loadingStatus];
+
+  if (loadingStatus === 'idle' && !items.length) {
+    return <NotFoundSearch searchValue={searchValue} />;
+  }
+
   return (
     <div className="container">
       <div className="content__top">
         <Categories />
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzaItems}</div>
-      <Pagination />
+      {!error ? (
+        <>
+          <h2 className="content__title">Все пиццы</h2>
+          <div className="content__items">
+            <Component />
+          </div>
+          <Pagination />
+        </>
+      ) : (
+        <ErrorBlock />
+      )}
     </div>
   );
 };

@@ -1,7 +1,10 @@
+/* eslint-disable no-unused-expressions */
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addOneItem } from '../../store/slices/cart/cartSlice';
+
+import { calcPercentPrice } from '../../utils';
 
 const PizzaBlock = ({
   title, price, currentId, imageUrl, sizes, types,
@@ -10,6 +13,7 @@ const PizzaBlock = ({
 
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
+  const [activePrice, setActivePrice] = useState(price);
 
   const handleChooseType = (index) => () => {
     setActiveType(index);
@@ -17,14 +21,15 @@ const PizzaBlock = ({
 
   const handleChooseSize = (index) => () => {
     setActiveSize(index);
+    index === 0 ? setActivePrice(price) : setActivePrice(calcPercentPrice(price, index));
   };
 
   const handleAddOneItem = () => {
     const item = {
       title,
-      price,
       imageUrl,
       id: currentId,
+      price: activePrice,
       type: types[activeType].type,
       size: sizes[activeSize].size,
     };
@@ -72,7 +77,7 @@ const PizzaBlock = ({
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">{`от ${price}`}</div>
+        <div className="pizza-block__price">{`от ${activePrice}`}</div>
         <button
           onClick={handleAddOneItem}
           type="button"

@@ -18,7 +18,7 @@ const CartItem = ({
   };
 
   const handleRemoveItems = () => {
-    if (window.confirm(`Вы действительно хотите удалить пиццу: "${title}" из корзины?`)) {
+    if (window.confirm(`Вы действительно хотите удалить пиццу: «${title}» из корзины?`)) {
       dispatch(removeItems({ item }));
     }
   };

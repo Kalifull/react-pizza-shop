@@ -15,3 +15,8 @@ export const filterItems = ({ items }, currentItem) => items.filter(
     && type === currentItem.type
     && size === currentItem.size),
 );
+
+export const calcPercentPrice = (price, index) => {
+  const percentPrice = 0.25;
+  return Math.ceil(price * percentPrice * (index / 1.5) + price);
+};
