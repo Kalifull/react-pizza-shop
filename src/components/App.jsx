@@ -1,23 +1,22 @@
 import { Routes, Route } from 'react-router-dom';
 
-import Header from './Header';
-import HomePage from '../pages/HomePage';
-import CartPage from '../pages/CartPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import Layout from '../layouts';
+import Home from '../pages/Home';
+import Cart from '../pages/Cart';
+import NotFound from '../pages/NotFound';
+import ProductInfo from '../pages/ProductInfo';
 
 import routes from '../routes';
 
 const App = () => (
-  <div className="wrapper">
-    <Header />
-    <div className="content">
-      <Routes>
-        <Route path={routes.HomePathPage()} element={<HomePage />} />
-        <Route path={routes.CartPathPage()} element={<CartPage />} />
-        <Route path={routes.NotFoundPage()} element={<NotFoundPage />} />
-      </Routes>
-    </div>
-  </div>
+  <Routes>
+    <Route path="" element={<Layout />}>
+      <Route path={routes.HomePathPage()} element={<Home />} />
+      <Route path={routes.CartPathPage()} element={<Cart />} />
+      <Route path={routes.ProductInfoPage()} element={<ProductInfo />} />
+      <Route path={routes.NotFoundPage()} element={<NotFound />} />
+    </Route>
+  </Routes>
 );
 
 export default App;

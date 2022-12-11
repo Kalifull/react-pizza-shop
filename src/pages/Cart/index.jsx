@@ -9,7 +9,7 @@ import { selectСartState, selectCountOfItems } from '../../store/slices/cart/se
 
 import routes from '../../routes';
 
-const CartPage = () => {
+const Cart = () => {
   const dispatch = useDispatch();
 
   const { totalPrice, items } = useSelector(selectСartState);
@@ -151,4 +151,4 @@ const CartPage = () => {
   );
 };
 
-export default CartPage;
+export default Cart;

@@ -4,7 +4,7 @@ import fetchItems from '../../../services/fetchItems';
 
 const initialState = {
   items: [],
-  loadingStatus: 'loading',
+  loadingStatus: false,
   error: null,
 };
 
@@ -15,17 +15,17 @@ export const itemSlice = createSlice({
     builder
       .addCase(fetchItems.pending, (state) => {
         state.items = [];
-        state.loadingStatus = 'loading';
+        state.loadingStatus = true;
         state.error = null;
       })
       .addCase(fetchItems.fulfilled, (state, { payload }) => {
         state.items = payload;
-        state.loadingStatus = 'idle';
+        state.loadingStatus = false;
         state.error = null;
       })
       .addCase(fetchItems.rejected, (state, action) => {
         state.items = [];
-        state.loadingStatus = 'failed';
+        state.loadingStatus = false;
         state.error = action.error;
       });
   },

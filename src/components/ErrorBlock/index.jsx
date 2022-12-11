@@ -1,12 +1,8 @@
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 
 import { selectItemsState } from '../../store/slices/item/selectors';
 
-import routes from '../../routes';
-
 const ErrorBlock = () => {
-  const navigate = useNavigate();
   const { error } = useSelector(selectItemsState);
 
   if (error?.name === 'AxiosError') {
@@ -16,10 +12,6 @@ const ErrorBlock = () => {
         <p>Заходите попозже, мы скоро всё починим!</p>
       </div>
     );
-  }
-
-  if (error.response?.status === 401) {
-    navigate(routes.HomePathPage());
   }
 
   return (

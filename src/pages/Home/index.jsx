@@ -61,7 +61,7 @@ const Home = () => {
   }, []);
 
   const getData = () => {
-    const paginate = `page=${pageNumber}&limit=4&`;
+    const paginate = `?page=${pageNumber}&limit=4&`;
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const searchProperty = searchValue ? `&search=${searchValue}` : '';
     const sortTypeProperty = `&sortBy=${sort.replace('-', '')}`;
@@ -92,14 +92,7 @@ const Home = () => {
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
   const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
 
-  const mapping = {
-    loading: () => skeletons,
-    idle: () => pizzaItems,
-  };
-
-  const Component = mapping[loadingStatus];
-
-  if (loadingStatus === 'idle' && !items.length) {
+  if (!error && !items.length && !loadingStatus) {
     return <NotFoundSearch searchValue={searchValue} />;
   }
 
@@ -112,9 +105,7 @@ const Home = () => {
       {!error ? (
         <>
           <h2 className="content__title">Все пиццы</h2>
-          <div className="content__items">
-            <Component />
-          </div>
+          <div className="content__items">{loadingStatus ? skeletons : pizzaItems}</div>
           <Pagination />
         </>
       ) : (

@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-expressions */
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addOneItem } from '../../store/slices/cart/cartSlice';
 import { selectCurrentCountOfItems } from '../../store/slices/cart/selectors';
 
 import { calcPercentPrice } from '../../utils';
+
+import routes from '../../routes';
 
 const PizzaBlock = ({
   title, price, currentId, imageUrl, sizes, types,
@@ -42,8 +45,10 @@ const PizzaBlock = ({
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
+      <Link to={routes.getProductInfoById(currentId)}>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        <p className="pizza-block__title">{title}</p>
+      </Link>
       <div className="pizza-block__selector">
         <ul>
           {sizes.map(({ size, id }, index) => (
@@ -71,7 +76,7 @@ const PizzaBlock = ({
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">{`от ${activePrice}`}</div>
+        <p className="pizza-block__price">{`от ${activePrice}`}</p>
         <button
           onClick={handleAddOneItem}
           type="button"
