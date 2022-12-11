@@ -14,12 +14,12 @@ import NotFoundSearch from '../../components/NotFoundSearch';
 import { setFilter } from '../../store/slices/filter/filterSlice';
 
 import { selectItemsState } from '../../store/slices/item/selectors';
-import { selectFilterState, selectSortState } from '../../store/slices/filter/selectors';
+import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
 import fetchItems from '../../services/fetchItems';
 
-const Home = ({ searchValue }) => {
+const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { search } = useLocation();
@@ -27,9 +27,13 @@ const Home = ({ searchValue }) => {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { sortProperty } = useSelector(selectSortState);
   const { items, loadingStatus, error } = useSelector(selectItemsState);
-  const { pageNumber, categoryId } = useSelector(selectFilterState);
+  const {
+    categoryId,
+    searchValue,
+    pageNumber,
+    sortType: { sortProperty: sort },
+  } = useSelector(selectFilterState);
 
   // Если параметры фильтрафции были изменены и был первый рендер
   useEffect(() => {
@@ -37,20 +41,20 @@ const Home = ({ searchValue }) => {
       const queryString = qs.stringify({
         page: pageNumber,
         category: categoryId,
-        sortBy: sortProperty,
+        sortBy: sort,
       });
 
       navigate(`?${queryString}`);
     }
 
     isMounted.current = true;
-  }, [pageNumber, categoryId, sortProperty]);
+  }, [pageNumber, categoryId, sort]);
 
   // Если был первый рендер, то проверить URL-параметры и сохранить их в хранилище
   useEffect(() => {
     if (search) {
       const params = qs.parse(search.slice(1));
-      const sortType = sortTypes.find((type) => type.sortProperty === params.sortBy);
+      const sortType = sortTypes.find(({ sortProperty }) => sortProperty === params.sortBy);
       dispatch(setFilter({ ...params, sortType }));
       isSearch.current = true;
     }
@@ -60,8 +64,8 @@ const Home = ({ searchValue }) => {
     const paginate = `page=${pageNumber}&limit=4&`;
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const searchProperty = searchValue ? `&search=${searchValue}` : '';
-    const sortTypeProperty = `&sortBy=${sortProperty.replace('-', '')}`;
-    const orderTypeProperty = sortProperty.includes('-') ? '&order=desc' : '&order=asc';
+    const sortTypeProperty = `&sortBy=${sort.replace('-', '')}`;
+    const orderTypeProperty = sort.includes('-') ? '&order=desc' : '&order=asc';
 
     dispatch(
       fetchItems({
@@ -83,10 +87,10 @@ const Home = ({ searchValue }) => {
     }
 
     isSearch.current = false;
-  }, [searchValue, pageNumber, sortProperty, categoryId]);
+  }, [searchValue, pageNumber, sort, categoryId]);
 
-  const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
+  const pizzaItems = items.map((item, index) => <PizzaBlock key={index} {...item} />);
 
   const mapping = {
     loading: () => skeletons,

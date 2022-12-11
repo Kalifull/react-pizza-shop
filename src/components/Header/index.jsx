@@ -3,15 +3,15 @@ import { useSelector } from 'react-redux';
 
 import Search from '../Search';
 
-import { selectСartState, selectCurrentNumberOfItems } from '../../store/slices/cart/selectors';
+import { selectСartState, selectCountOfItems } from '../../store/slices/cart/selectors';
 
 import routes from '../../routes';
 
 import PizzaLogo from '../../assets/images/pizza-logo.svg';
 
-const Header = ({ setSearchValue }) => {
+const Header = () => {
   const { totalPrice } = useSelector(selectСartState);
-  const currentNumber = useSelector(selectCurrentNumberOfItems);
+  const count = useSelector(selectCountOfItems);
 
   return (
     <div className="header">
@@ -25,7 +25,7 @@ const Header = ({ setSearchValue }) => {
             </div>
           </div>
         </Link>
-        <Search setSearchValue={setSearchValue} />
+        <Search />
         <div className="header__cart">
           <Link to={routes.CartPathPage()} className="button button__cart">
             <span>{`${totalPrice} ₽`}</span>
@@ -59,7 +59,7 @@ const Header = ({ setSearchValue }) => {
                 strokeLinejoin="round"
               />
             </svg>
-            <span>{currentNumber}</span>
+            <span>{count}</span>
           </Link>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setSortType } from '../../store/slices/filter/filterSlice';
-import { selectSortState } from '../../store/slices/filter/selectors';
+import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
 
@@ -11,7 +11,7 @@ const Sort = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { name, id } = useSelector(selectSortState);
+  const { sortType: { name, id } } = useSelector(selectFilterState);
 
   useEffect(() => {
     const handleClickOutside = ({ path }) => {

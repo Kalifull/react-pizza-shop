@@ -5,7 +5,7 @@ import CartItem from '../../components/CartItem';
 import EmptyCart from '../../components/EmptyCart';
 
 import { clearAllItems } from '../../store/slices/cart/cartSlice';
-import { selectСartState, selectCurrentNumberOfItems } from '../../store/slices/cart/selectors';
+import { selectСartState, selectCountOfItems } from '../../store/slices/cart/selectors';
 
 import routes from '../../routes';
 
@@ -13,7 +13,7 @@ const CartPage = () => {
   const dispatch = useDispatch();
 
   const { totalPrice, items } = useSelector(selectСartState);
-  const currentNumber = useSelector(selectCurrentNumberOfItems);
+  const count = useSelector(selectCountOfItems);
 
   const handleClearAllItems = () => {
     if (window.confirm('Вы действительно хотите очистить корзину?')) {
@@ -108,7 +108,7 @@ const CartPage = () => {
             <span>
               Всего пицц:
               {' '}
-              <b>{`${currentNumber} шт.`}</b>
+              <b>{`${count} шт.`}</b>
             </span>
             <span>
               Сумма заказа:

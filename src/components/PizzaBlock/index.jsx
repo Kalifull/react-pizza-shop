@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addOneItem } from '../../store/slices/cart/cartSlice';
+import { selectCurrentCountOfItems } from '../../store/slices/cart/selectors';
 
 import { calcPercentPrice } from '../../utils';
 
@@ -24,27 +25,20 @@ const PizzaBlock = ({
     index === 0 ? setActivePrice(price) : setActivePrice(calcPercentPrice(price, index));
   };
 
+  const item = {
+    title,
+    imageUrl,
+    id: currentId,
+    price: activePrice,
+    type: types[activeType].type,
+    size: sizes[activeSize].size,
+  };
+
   const handleAddOneItem = () => {
-    const item = {
-      title,
-      imageUrl,
-      id: currentId,
-      price: activePrice,
-      type: types[activeType].type,
-      size: sizes[activeSize].size,
-    };
     dispatch(addOneItem({ item }));
   };
 
-  const currentCount = useSelector((state) => {
-    const { items } = state.cartInfo;
-    const count = items.find(
-      ({ id, type, size }) => id === currentId
-        && type === types[activeType].type
-        && size === sizes[activeSize].size,
-    )?.count;
-    return count ?? 0;
-  });
+  const currentCount = useSelector(selectCurrentCountOfItems(item));
 
   return (
     <div className="pizza-block">
