@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,7 +24,11 @@ const PizzaBlock = ({
 
   const handleChooseSize = (index) => () => {
     setActiveSize(index);
-    index === 0 ? setActivePrice(price) : setActivePrice(calcPercentPrice(price, index));
+    if (index === 0) {
+      setActivePrice(price);
+    } else {
+      setActivePrice(calcPercentPrice(price, index));
+    }
   };
 
   const item = {
