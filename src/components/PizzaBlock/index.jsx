@@ -9,9 +9,7 @@ import { calcPercentPrice } from '../../utils';
 
 import routes from '../../routes';
 
-const PizzaBlock = ({
-  title, price, currentId, imageUrl, sizes, types,
-}) => {
+const PizzaBlock = ({ title, price, currentId, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
 
   const [activeType, setActiveType] = useState(0);
@@ -79,7 +77,7 @@ const PizzaBlock = ({
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <p className="pizza-block__price">{`от ${activePrice}`}</p>
+        <p className="pizza-block__price">от ${activePrice}</p>
         <button
           onClick={handleAddOneItem}
           type="button"

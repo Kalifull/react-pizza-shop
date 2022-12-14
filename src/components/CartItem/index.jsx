@@ -2,9 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import { addOneItem, deleteOneItem, removeItems } from '../../store/slices/cart/cartSlice';
 
-const CartItem = ({
-  id, title, price, imageUrl, type, size, count,
-}) => {
+const CartItem = ({ id, title, price, imageUrl, type, size, count }) => {
   const dispatch = useDispatch();
 
   const item = { id, type, size };
@@ -30,8 +28,10 @@ const CartItem = ({
       </div>
       <div className="cart__item-info">
         <h3>{title}</h3>
-        <p>{`${type} тесто, ${size.toLowerCase()}.`}</p>
-        <p>{`${price} ₽ за 1шт.`}</p>
+        <p>
+          {type} тесто, {size.toLowerCase()}
+        </p>
+        <p>{price} ₽ за 1шт.</p>
       </div>
       <div className="cart__item-count">
         <div
@@ -79,7 +79,7 @@ const CartItem = ({
         </div>
       </div>
       <div className="cart__item-price">
-        <b>{`${price * count} ₽`}</b>
+        <b>{price * count} ₽</b>
       </div>
       <div className="cart__item-remove">
         <div onClick={handleRemoveItems} className="button button__outline button__circle">

@@ -31,7 +31,7 @@ const ProductInfo = () => {
       <div className="pizza-block">
         <img className="pizza-block__image" src={item.imageUrl} alt={item.title} />
         <p className="pizza-block__title">{item.title}</p>
-        <p className="pizza-block__price">{`от ${item.price} ₽ за 1шт.`}</p>
+        <p className="pizza-block__price">от {item.price} ₽ за 1шт.</p>
         <Link to={routes.HomePathPage()} className="button button--black">
           <span>Вернуться назад</span>
         </Link>

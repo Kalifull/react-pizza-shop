@@ -74,7 +74,7 @@ const Home = () => {
         search: searchProperty,
         sort: sortTypeProperty,
         order: orderTypeProperty,
-      }),
+      })
     );
 
     window.scrollTo(0, 0);

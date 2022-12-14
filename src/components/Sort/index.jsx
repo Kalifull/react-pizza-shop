@@ -11,7 +11,9 @@ const Sort = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { sortType: { name, id } } = useSelector(selectFilterState);
+  const {
+    sortType: { name, id },
+  } = useSelector(selectFilterState);
 
   useEffect(() => {
     const handleClickOutside = ({ path }) => {

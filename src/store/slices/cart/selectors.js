@@ -8,7 +8,7 @@ export const selectCountOfItems = (state) => {
 export const selectCurrentCountOfItems = (item) => (state) => {
   const { items } = state.cartInfo;
   const count = items.find(
-    ({ id, type, size }) => id === item.id && type === item.type && size === item.size,
+    ({ id, type, size }) => id === item.id && type === item.type && size === item.size
   )?.count;
 
   return count ?? 0;

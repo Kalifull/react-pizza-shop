@@ -48,8 +48,7 @@ export const filterSlice = createSlice({
   },
 });
 
-export const {
-  setCategoryId, setSearchValue, setPageCount, setSortType, setFilter,
-} = filterSlice.actions;
+export const { setCategoryId, setSearchValue, setPageCount, setSortType, setFilter } =
+  filterSlice.actions;
 
 export default filterSlice.reducer;

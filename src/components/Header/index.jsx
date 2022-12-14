@@ -32,7 +32,7 @@ const Header = () => {
             <Search />
             <div className="header__cart">
               <Link to={routes.CartPathPage()} className="button button__cart">
-                <span>{`${totalPrice} ₽`}</span>
+                <span>{totalPrice} ₽</span>
                 <div className="button__delimiter" />
                 <svg
                   width="18"
