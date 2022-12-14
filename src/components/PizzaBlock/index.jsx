@@ -77,7 +77,7 @@ const PizzaBlock = ({ title, price, currentId, imageUrl, sizes, types }) => {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <p className="pizza-block__price">от ${activePrice}</p>
+        <p className="pizza-block__price">от {activePrice} ₽</p>
         <button
           onClick={handleAddOneItem}
           type="button"
