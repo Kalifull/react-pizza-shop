@@ -4,13 +4,12 @@ import { useState, useEffect, useRef } from 'react';
 import { setSearchValue } from '../../store/slices/filter/filterSlice';
 
 import { useDebounce } from '../../hooks';
-
 import styles from './Search.module.scss';
 
-const Search = () => {
-  const inputRef = useRef();
+const Search: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<string>('');
 
   const debouncedInputValue = useDebounce(inputValue, 500);
 
@@ -24,8 +23,8 @@ const Search = () => {
     inputRef.current?.focus();
   };
 
-  const handleChangeValue = ({ target: { value } }) => {
-    setInputValue(value);
+  const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
   return (

@@ -8,7 +8,7 @@ import ProductInfo from '../pages/ProductInfo';
 
 import routes from '../routes';
 
-const App = () => (
+const App: React.FC = () => (
   <Routes>
     <Route path="" element={<Layout />}>
       <Route path={routes.HomePathPage()} element={<Home />} />

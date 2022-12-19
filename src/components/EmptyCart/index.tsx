@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 
+import routes from '../../routes';
 import EmptyCartImg from '../../assets/images/empty-cart.svg';
 
-import routes from '../../routes';
-
-const EmptyCart = () => (
+const EmptyCart: React.FC = () => (
   <div className="cart cart--empty">
     <img src={EmptyCartImg} alt="Empty cart" />
     <h2>Ой, пусто!</h2>

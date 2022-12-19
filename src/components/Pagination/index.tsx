@@ -6,11 +6,11 @@ import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import styles from './Pagination.module.scss';
 
-const Pagination = () => {
+const Pagination: React.FC = () => {
   const dispatch = useDispatch();
   const { pageNumber } = useSelector(selectFilterState);
 
-  const handleChoosePage = (pageId) => {
+  const handleChoosePage = (pageId: number) => {
     dispatch(setPageCount({ page: pageId + 1 }));
   };
 
@@ -24,7 +24,6 @@ const Pagination = () => {
       pageRangeDisplayed={4}
       pageCount={3}
       forcePage={pageNumber - 1}
-      renderOnZeroPageCount={null}
     />
   );
 };

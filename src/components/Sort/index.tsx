@@ -1,23 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { SortTypeItem } from '../../store/slices/filter/types';
 import { setSortType } from '../../store/slices/filter/filterSlice';
 import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
 
-const Sort = () => {
-  const sortRef = useRef();
+const Sort: React.FC = () => {
+  const sortRef = useRef<HTMLDivElement | null>(null);
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const {
     sortType: { name, id },
   } = useSelector(selectFilterState);
 
   useEffect(() => {
-    const handleClickOutside = ({ path }) => {
-      if (!path.includes(sortRef.current)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
         setIsOpen(false);
       }
     };
@@ -26,12 +27,12 @@ const Sort = () => {
     return () => document.body.removeEventListener('click', handleClickOutside);
   }, []);
 
-  const handleOpen = (open) => () => {
+  const handleOpen = (open: boolean) => () => {
     setIsOpen(!open);
   };
 
-  const handleChooseSortType = (sortType) => () => {
-    dispatch(setSortType({ sortType }));
+  const handleChooseSortType = (sortType: SortTypeItem) => () => {
+    dispatch(setSortType({ sort: sortType }));
     setIsOpen(false);
   };
 

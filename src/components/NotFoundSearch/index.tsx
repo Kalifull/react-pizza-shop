@@ -1,6 +1,10 @@
 import Pagination from '../Pagination';
 
-const NotFoundSearch = ({ searchValue }) => (
+type SearchValueProps = {
+  searchValue: string;
+};
+
+const NotFoundSearch: React.FC<SearchValueProps> = ({ searchValue }) => (
   <div className="container">
     <div className="content__search-info">
       {searchValue ? (

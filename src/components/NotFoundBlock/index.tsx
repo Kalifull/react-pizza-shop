@@ -1,12 +1,10 @@
 import { Link } from 'react-router-dom';
 
 import routes from '../../routes';
-
+import styles from './NotFoundBlock.module.scss';
 import NotFoundLogo from '../../assets/images/not-found-logo.png';
 
-import styles from './NotFoundBlock.module.scss';
-
-const NotFoundBlock = () => (
+const NotFoundBlock: React.FC = () => (
   <div className={styles.content}>
     <img src={NotFoundLogo} className={styles.image} alt="Not found logo" />
     <div>

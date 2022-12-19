@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { TPayloadItem, CartSliceState } from './types';
 import { findCurrentItem, calcTotalPrice, filterItems } from '../../../utils';
 
-const initialState = {
+const initialState: CartSliceState = {
   totalPrice: 0,
   items: [],
 };
@@ -11,7 +12,7 @@ export const cartSlice = createSlice({
   name: 'cartInfo',
   initialState,
   reducers: {
-    addOneItem(state, { payload: { item } }) {
+    addOneItem(state, { payload: { item } }: PayloadAction<TPayloadItem>) {
       const currentItem = findCurrentItem(state, item);
       if (!currentItem) {
         state.items.unshift({ ...item, count: 1 });
@@ -21,7 +22,7 @@ export const cartSlice = createSlice({
         state.totalPrice += currentItem.price;
       }
     },
-    deleteOneItem(state, { payload: { item } }) {
+    deleteOneItem(state, { payload: { item } }: PayloadAction<TPayloadItem>) {
       const currentItem = findCurrentItem(state, item);
       if (currentItem.count > 1) {
         currentItem.count -= 1;
@@ -31,7 +32,7 @@ export const cartSlice = createSlice({
         state.items = filterItems(state, currentItem);
       }
     },
-    removeItems(state, { payload: { item } }) {
+    removeItems(state, { payload: { item } }: PayloadAction<TPayloadItem>) {
       const currentItem = findCurrentItem(state, item);
       state.totalPrice -= currentItem.price * currentItem.count;
       state.items = filterItems(state, currentItem);

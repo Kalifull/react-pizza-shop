@@ -5,11 +5,11 @@ import { selectFilterState } from '../../store/slices/filter/selectors';
 
 import { categories } from '../../constants';
 
-const Categories = () => {
+const Categories: React.FC = () => {
   const dispatch = useDispatch();
   const { categoryId } = useSelector(selectFilterState);
 
-  const handleChooseCategory = (id) => () => {
+  const handleChooseCategory = (id: number) => () => {
     dispatch(setCategoryId({ category: id }));
   };
 

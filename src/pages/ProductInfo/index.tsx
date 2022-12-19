@@ -4,15 +4,25 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 
 import routes from '../../routes';
 
-const ProductInfo = () => {
-  const { id } = useParams();
+type UserItemPageParams = {
+  id: string;
+};
+
+type ItemParams = {
+  imageUrl: string;
+  title: string;
+  price: number;
+};
+
+const ProductInfo: React.FC = () => {
+  const { id } = useParams<UserItemPageParams>();
   const navigate = useNavigate();
-  const [item, setItem] = useState([]);
+  const [item, setItem] = useState<ItemParams | null>(null);
 
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const { data } = await axios.get(`${routes.getItems()}/${id}`);
+        const { data } = await axios.get<ItemParams>(`${routes.getItems()}/${id}`);
         setItem(data);
       } catch (error) {
         navigate(routes.HomePathPage());
@@ -22,7 +32,7 @@ const ProductInfo = () => {
     fetchItem();
   }, []);
 
-  if (item.length === 0) {
+  if (!item) {
     return <div className="container">Загрузка...</div>;
   }
 

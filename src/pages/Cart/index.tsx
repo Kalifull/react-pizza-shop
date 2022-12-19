@@ -5,14 +5,24 @@ import CartItem from '../../components/CartItem';
 import EmptyCart from '../../components/EmptyCart';
 
 import { clearAllItems } from '../../store/slices/cart/cartSlice';
-import { selectСartState, selectCountOfItems } from '../../store/slices/cart/selectors';
+import { selectCartState, selectCountOfItems } from '../../store/slices/cart/selectors';
 
 import routes from '../../routes';
 
-const Cart = () => {
+type ItemCart = {
+  id: string;
+  title: string;
+  price: number;
+  imageUrl: string;
+  type: string;
+  size: string;
+  count: number;
+};
+
+const Cart: React.FC = () => {
   const dispatch = useDispatch();
 
-  const { totalPrice, items } = useSelector(selectСartState);
+  const { totalPrice, items } = useSelector(selectCartState);
   const count = useSelector(selectCountOfItems);
 
   const handleClearAllItems = () => {
@@ -99,7 +109,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="cart__items">
-          {items.map((item, index) => (
+          {items.map((item: ItemCart, index: number) => (
             <CartItem key={index} {...item} />
           ))}
         </div>

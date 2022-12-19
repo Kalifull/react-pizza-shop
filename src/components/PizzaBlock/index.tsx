@@ -2,25 +2,27 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { TCartItem } from '../../store/slices/cart/types';
 import { addOneItem } from '../../store/slices/cart/cartSlice';
 import { selectCurrentCountOfItems } from '../../store/slices/cart/selectors';
 
-import { calcPercentPrice } from '../../utils';
+import { ItemsState } from '../../store/slices/item/types';
 
 import routes from '../../routes';
+import { calcPercentPrice } from '../../utils';
 
-const PizzaBlock = ({ title, price, currentId, imageUrl, sizes, types }) => {
+const PizzaBlock: React.FC<ItemsState> = ({ title, price, currentId, imageUrl, sizes, types }) => {
   const dispatch = useDispatch();
 
-  const [activeType, setActiveType] = useState(0);
-  const [activeSize, setActiveSize] = useState(0);
-  const [activePrice, setActivePrice] = useState(price);
+  const [activeType, setActiveType] = useState<number>(0);
+  const [activeSize, setActiveSize] = useState<number>(0);
+  const [activePrice, setActivePrice] = useState<number>(price);
 
-  const handleChooseType = (index) => () => {
+  const handleChooseType = (index: number) => () => {
     setActiveType(index);
   };
 
-  const handleChooseSize = (index) => () => {
+  const handleChooseSize = (index: number) => () => {
     setActiveSize(index);
     if (index === 0) {
       setActivePrice(price);
@@ -29,13 +31,14 @@ const PizzaBlock = ({ title, price, currentId, imageUrl, sizes, types }) => {
     }
   };
 
-  const item = {
+  const item: TCartItem = {
     title,
     imageUrl,
     id: currentId,
     price: activePrice,
     type: types[activeType].type,
     size: sizes[activeSize].size,
+    count: 0,
   };
 
   const handleAddOneItem = () => {

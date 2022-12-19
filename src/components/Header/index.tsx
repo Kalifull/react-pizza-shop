@@ -1,18 +1,17 @@
-import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
+
+import { selectCartState, selectCountOfItems } from '../../store/slices/cart/selectors';
 
 import Search from '../Search';
 
-import { selectСartState, selectCountOfItems } from '../../store/slices/cart/selectors';
-
 import routes from '../../routes';
-
 import PizzaLogo from '../../assets/images/pizza-logo.svg';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { pathname } = useLocation();
 
-  const { totalPrice } = useSelector(selectСartState);
+  const { totalPrice } = useSelector(selectCartState);
   const count = useSelector(selectCountOfItems);
 
   return (
@@ -23,7 +22,7 @@ const Header = () => {
             <img width="38" src={PizzaLogo} alt="Pizza logo" />
             <div>
               <h1>React Pizza</h1>
-              <p>Cамая вкусная пицца во всей вселенной</p>
+              <p>Самая вкусная пицца во всей вселенной</p>
             </div>
           </div>
         </Link>
