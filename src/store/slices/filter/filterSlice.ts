@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import fetchData from '../../../services/fetchItems';
+
 import {
   TPayloadCategory,
   TPayloadSearch,
@@ -39,15 +41,16 @@ export const filterSlice = createSlice({
     },
     setFilter(state, { payload }: PayloadAction<PayloadFilter>) {
       const { category, search, page, sort } = payload;
-      if (Object.keys(payload).length) {
-        state.categoryId = +category;
-        state.searchValue = search;
-        state.pageNumber = +page;
-        state.sortType = sort;
-      } else {
-        state = initialState;
-      }
+      state.categoryId = +category;
+      state.searchValue = search;
+      state.pageNumber = +page;
+      state.sortType = sort;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchData.fulfilled, (state) => {
+      state.pageNumber = initialState.pageNumber;
+    });
   },
 });
 

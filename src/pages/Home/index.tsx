@@ -17,10 +17,11 @@ import fetchItems from '../../services/fetchItems';
 import { setFilter } from '../../store/slices/filter/filterSlice';
 import { selectFilterState } from '../../store/slices/filter/selectors';
 
-import { TSearchParams } from '../../store/slices/item/types';
+import { ItemsState, TSearchParams } from '../../store/slices/item/types';
 import { selectItemsState } from '../../store/slices/item/selectors';
 
-import { sortTypes } from '../../constants';
+import { calcCurrentItem } from '../../utils';
+import { sortTypes, itemsPerPage } from '../../constants';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -70,8 +71,8 @@ const Home: React.FC = () => {
   }, []);
 
   const getItems = () => {
-    const paginate = `?page=${pageNumber}&limit=4&`;
-    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const paginate = `?page=${pageNumber}`;
+    const category = categoryId > 0 ? `&category=${categoryId}` : '';
     const searchProperty = searchValue ? `&search=${searchValue}` : '';
     const sortTypeProperty = `&sortBy=${sortByType.replace('-', '')}`;
     const orderTypeProperty = sortByType.includes('-') ? '&order=desc' : '&order=asc';
@@ -85,8 +86,6 @@ const Home: React.FC = () => {
         order: orderTypeProperty,
       })
     );
-
-    window.scrollTo(0, 0);
   };
 
   // Если тукущий рендер - первый, то выполняем запрос данных
@@ -95,11 +94,15 @@ const Home: React.FC = () => {
       getItems();
     }
 
+    window.scrollTo(0, 0);
     isSearch.current = false;
-  }, [searchValue, pageNumber, sortByType, categoryId]);
+  }, [searchValue, sortByType, categoryId]);
 
+  const currentItems = calcCurrentItem(items, itemsPerPage, pageNumber);
   const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
-  const pizzaItems = items.map((item, index: number) => <PizzaBlock key={index} {...item} />);
+  const pizzaItems = currentItems.map((item: ItemsState) => (
+    <PizzaBlock key={item.currentId} {...item} />
+  ));
 
   if (!error && !items.length && !loadingStatus) {
     return <NotFoundSearch searchValue={searchValue} />;

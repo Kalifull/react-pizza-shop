@@ -35,7 +35,8 @@ const CartItem: React.FC<TCartItem> = (props) => {
         <p>{price} ₽ за 1шт.</p>
       </div>
       <div className="cart__item-count">
-        <div
+        <button
+          type="button"
           onClick={handleDeleteOneItem}
           className="button button__outline button__circle cart__item-count-minus"
         >
@@ -55,9 +56,10 @@ const CartItem: React.FC<TCartItem> = (props) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div
+        <button
+          type="button"
           onClick={handleAddOneItem}
           className="button button__outline button__circle cart__item-count-plus"
         >
@@ -77,7 +79,7 @@ const CartItem: React.FC<TCartItem> = (props) => {
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price * count} ₽</b>

@@ -14,3 +14,11 @@ export const calcPercentPrice = (price, index) => {
   const percentPrice = 0.25;
   return Math.ceil(price * percentPrice * (index / 1.5) + price);
 };
+
+export const calcPageCount = (items, itemsPerPage) => Math.ceil(items.length / itemsPerPage);
+
+export const calcCurrentItem = (items, itemsPerPage, pageNumber) => {
+  const endOffset = pageNumber * itemsPerPage;
+  const itemOffset = endOffset - itemsPerPage;
+  return items.slice(itemOffset, endOffset);
+};

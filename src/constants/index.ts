@@ -1,5 +1,7 @@
 import { SortPropertyEnum, SortTypeItem } from '../store/slices/filter/types';
 
+export const itemsPerPage = 4;
+
 export const sortTypes: SortTypeItem[] = [
   {
     name: 'популярность по убыванию',
