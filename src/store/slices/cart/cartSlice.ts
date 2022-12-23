@@ -23,7 +23,7 @@ export const cartSlice = createSlice({
       }
     },
     deleteOneItem(state, { payload: { item } }: PayloadAction<TPayloadItem>) {
-      const currentItem = findCurrentItem(state, item);
+      const currentItem = findCurrentItem(state, item)!;
       if (currentItem.count > 1) {
         currentItem.count -= 1;
         state.totalPrice -= currentItem.price;
@@ -33,7 +33,7 @@ export const cartSlice = createSlice({
       }
     },
     removeItems(state, { payload: { item } }: PayloadAction<TPayloadItem>) {
-      const currentItem = findCurrentItem(state, item);
+      const currentItem = findCurrentItem(state, item)!;
       state.totalPrice -= currentItem.price * currentItem.count;
       state.items = filterItems(state, currentItem);
     },

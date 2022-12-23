@@ -53,6 +53,7 @@
     "react/jsx-props-no-spreading": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
     "functional/immutable-data": "off",
     "functional/no-throw-statement": "off",
     "functional/functional-parameters": "off",

@@ -49,7 +49,9 @@ const Home: React.FC = () => {
         search: searchValue,
       });
 
-      navigate(`?${queryString}`);
+      if (queryString) {
+        navigate(`?${queryString}`);
+      }
     }
 
     isMounted.current = true;
@@ -57,7 +59,9 @@ const Home: React.FC = () => {
 
   // Если был первый рендер, то проверить URL-параметры и сохранить их в хранилище
   useEffect(() => {
+    // убрать условие, чтобы была синхронизация редакса к вери параметрами при пустом search
     if (search) {
+      // всегда парсить квери параметры при обновлении search и обновлять редакс
       const params = qs.parse(search.slice(1)) as TSearchParams;
       const sortType = sortTypes.find(({ sortProperty }) => sortProperty === params.sortBy);
       dispatch(
@@ -70,36 +74,39 @@ const Home: React.FC = () => {
     }
   }, []);
 
-  const getItems = () => {
-    const paginate = `?page=${pageNumber}`;
-    const category = categoryId > 0 ? `&category=${categoryId}` : '';
-    const searchProperty = searchValue ? `&search=${searchValue}` : '';
-    const sortTypeProperty = `&sortBy=${sortByType.replace('-', '')}`;
-    const orderTypeProperty = sortByType.includes('-') ? '&order=desc' : '&order=asc';
-
-    dispatch(
-      fetchItems({
-        category,
-        page: paginate,
-        search: searchProperty,
-        sortBy: sortTypeProperty,
-        order: orderTypeProperty,
-      })
-    );
-  };
-
   // Если тукущий рендер - первый, то выполняем запрос данных
   useEffect(() => {
+    // условие не нужно, т.к обновится search
     if (!isSearch.current) {
+      // Всегда делать запрос на основе queryString
+      const getItems = () => {
+        const paginate = `?page=${pageNumber}`;
+        const category = categoryId > 0 ? `&category=${categoryId}` : '';
+        const searchProperty = searchValue ? `&search=${searchValue}` : '';
+        const sortTypeProperty = `&sortBy=${sortByType.replace('-', '')}`;
+        const orderTypeProperty = sortByType.includes('-') ? '&order=desc' : '&order=asc';
+
+        dispatch(
+          fetchItems({
+            category,
+            page: paginate,
+            search: searchProperty,
+            sortBy: sortTypeProperty,
+            order: orderTypeProperty,
+          })
+        );
+      };
+
       getItems();
     }
 
     window.scrollTo(0, 0);
     isSearch.current = false;
+    // в зависимостях search
   }, [searchValue, sortByType, categoryId]);
 
   const currentItems = calcCurrentItem(items, itemsPerPage, pageNumber);
-  const skeletons = [...new Array(4)].map((_, index) => <SkeletonBlock key={index} />);
+  const skeletons = [...new Array(itemsPerPage)].map((_, index) => <SkeletonBlock key={index} />);
   const pizzaItems = currentItems.map((item: ItemsState) => (
     <PizzaBlock key={item.currentId} {...item} />
   ));

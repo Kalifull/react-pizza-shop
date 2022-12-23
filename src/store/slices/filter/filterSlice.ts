@@ -41,10 +41,11 @@ export const filterSlice = createSlice({
     },
     setFilter(state, { payload }: PayloadAction<PayloadFilter>) {
       const { category, search, page, sort } = payload;
-      state.categoryId = +category;
-      state.searchValue = search;
-      state.pageNumber = +page;
-      state.sortType = sort;
+      // TODO: добавить дефолты
+      state.categoryId = +category || initialState.categoryId;
+      state.searchValue = search || initialState.searchValue;
+      state.pageNumber = +page || initialState.pageNumber;
+      state.sortType = sort || initialState.sortType;
     },
   },
   extraReducers: (builder) => {

@@ -4,5 +4,5 @@ export default {
   NotFoundPage: () => '*',
   ProductInfoPage: () => '/product/:id',
   getItems: () => 'https://6380e160786e112fe1bce82e.mockapi.io/items',
-  getProductInfoById: (id) => `/product/${id}`,
+  getProductInfoById: (id: string) => `/product/${id}`,
 };
