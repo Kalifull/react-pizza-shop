@@ -1,31 +1,20 @@
-import { useDispatch } from 'react-redux';
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, memo } from 'react';
 
-import { setSearchValue } from '../../store/slices/filter/filterSlice';
+import { useActions, useDebounce, useInput } from '../../hooks';
+import { delay } from '../../constants';
 
-import { useDebounce } from '../../hooks';
 import styles from './Search.module.scss';
 
-const Search: React.FC = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState<string>('');
+const Search: React.FC = memo(() => {
+  const { setSearchValue } = useActions();
 
-  const debouncedInputValue = useDebounce(inputValue, 500);
+  const { searchInput, handleClickClear } = useInput('');
+
+  const debouncedInputValue = useDebounce(searchInput.value, delay);
 
   useEffect(() => {
-    dispatch(setSearchValue({ search: debouncedInputValue }));
+    setSearchValue({ search: debouncedInputValue });
   }, [debouncedInputValue]);
-
-  const handleClickClear = () => {
-    setInputValue('');
-    dispatch(setSearchValue({ search: '' }));
-    inputRef.current?.focus();
-  };
-
-  const handleChangeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
 
   return (
     <div className={styles.root}>
@@ -34,14 +23,8 @@ const Search: React.FC = () => {
           <path d="M29.71,28.29l-6.5-6.5-.07,0a12,12,0,1,0-1.39,1.39s0,.05,0,.07l6.5,6.5a1,1,0,0,0,1.42,0A1,1,0,0,0,29.71,28.29ZM14,24A10,10,0,1,1,24,14,10,10,0,0,1,14,24Z" />
         </g>
       </svg>
-      <input
-        className={styles.input}
-        ref={inputRef}
-        value={inputValue}
-        onChange={handleChangeValue}
-        placeholder="Поиск пиццы..."
-      />
-      {inputValue && (
+      <input className={styles.input} {...searchInput} placeholder="Поиск пиццы..." />
+      {searchInput.value && (
         <svg
           className={styles.clear}
           height="14px"
@@ -68,6 +51,6 @@ const Search: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Search;

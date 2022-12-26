@@ -1,3 +1,3 @@
-import { RootState } from '../..';
+import { TypeRootState } from '../..';
 
-export const selectItemsState = (state: RootState) => state.itemsInfo;
+export const selectItemsState = (state: TypeRootState) => state.itemsInfo;

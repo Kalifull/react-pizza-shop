@@ -3,7 +3,7 @@ type TSizeItem = {
   id: number;
 };
 
-type TTipeItem = {
+type TTypeItem = {
   type: string;
   id: number;
 };
@@ -16,17 +16,17 @@ export type TSearchParams = {
   order: string;
 };
 
-export interface ItemsState {
+export interface IStateItems {
   title: string;
   price: number;
   currentId: string;
   imageUrl: string;
   sizes: TSizeItem[];
-  types: TTipeItem[];
+  types: TTypeItem[];
 }
 
-export interface ItemSliceState {
-  items: ItemsState[];
+export interface ISliceItemState {
+  items: IStateItems[];
   loadingStatus: boolean;
   error: null | string | undefined;
 }

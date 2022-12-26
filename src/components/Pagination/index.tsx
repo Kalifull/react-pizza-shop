@@ -1,10 +1,8 @@
 import ReactPaginate from 'react-paginate';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useActions, useAppSelector } from '../../hooks';
 import { selectItemsState } from '../../store/slices/item/selectors';
-
-import { setPageCount } from '../../store/slices/filter/filterSlice';
-import { selectFilterState } from '../../store/slices/filter/selectors';
+import { selectPageNumber } from '../../store/slices/filter/selectors';
 
 import { calcPageCount } from '../../utils';
 import { itemsPerPage } from '../../constants';
@@ -12,15 +10,15 @@ import { itemsPerPage } from '../../constants';
 import styles from './Pagination.module.scss';
 
 const Pagination: React.FC = () => {
-  const dispatch = useDispatch();
+  const { setPageCount } = useActions();
 
-  const { items } = useSelector(selectItemsState);
-  const { pageNumber } = useSelector(selectFilterState);
+  const { items } = useAppSelector(selectItemsState);
+  const pageNumber = useAppSelector(selectPageNumber);
 
   const pageCount = calcPageCount(items, itemsPerPage);
 
   const handlePageChange = (pageId: number) => {
-    dispatch(setPageCount({ page: pageId + 1 }));
+    setPageCount({ page: pageId + 1 });
   };
 
   return (

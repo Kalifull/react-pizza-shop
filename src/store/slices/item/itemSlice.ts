@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { ItemSliceState } from './types';
-import fetchItems from '../../../services/fetchItems';
+import { ISliceItemState } from './types';
+import { itemsApi } from '../../../services';
 
-const initialState: ItemSliceState = {
+const initialState: ISliceItemState = {
   items: [],
   loadingStatus: false,
   error: null,
@@ -15,17 +15,17 @@ export const itemSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchItems.pending, (state) => {
+      .addCase(itemsApi.pending, (state) => {
         state.items = [];
         state.loadingStatus = true;
         state.error = null;
       })
-      .addCase(fetchItems.fulfilled, (state, { payload }) => {
+      .addCase(itemsApi.fulfilled, (state, { payload }) => {
         state.items = payload;
         state.loadingStatus = false;
         state.error = null;
       })
-      .addCase(fetchItems.rejected, (state, { payload }) => {
+      .addCase(itemsApi.rejected, (state, { payload }) => {
         state.items = [];
         state.loadingStatus = false;
         state.error = payload;

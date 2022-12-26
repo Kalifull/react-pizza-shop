@@ -1,33 +1,29 @@
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
 import CartItem from '../../components/CartItem';
 import EmptyCart from '../../components/EmptyCart';
 
-import { clearAllItems } from '../../store/slices/cart/cartSlice';
-import { selectCartState, selectCountOfItems } from '../../store/slices/cart/selectors';
+import { useActions, useAppSelector } from '../../hooks';
+import { TCartItem } from '../../store/slices/cart/types';
+
+import {
+  selectItemsCart,
+  selectTotalPrice,
+  selectCountOfItems,
+} from '../../store/slices/cart/selectors';
 
 import routes from '../../routes';
 
-type ItemCart = {
-  id: string;
-  title: string;
-  price: number;
-  imageUrl: string;
-  type: string;
-  size: string;
-  count: number;
-};
-
 const Cart: React.FC = () => {
-  const dispatch = useDispatch();
+  const { clearAllItems } = useActions();
 
-  const { totalPrice, items } = useSelector(selectCartState);
-  const count = useSelector(selectCountOfItems);
+  const items = useAppSelector(selectItemsCart);
+  const totalPrice = useAppSelector(selectTotalPrice);
+  const count = useAppSelector(selectCountOfItems);
 
   const handleClearAllItems = () => {
     if (window.confirm('Вы действительно хотите очистить корзину?')) {
-      dispatch(clearAllItems());
+      clearAllItems();
     }
   };
 
@@ -109,7 +105,7 @@ const Cart: React.FC = () => {
           </div>
         </div>
         <div className="cart__items">
-          {items.map((item: ItemCart, index: number) => (
+          {items.map((item: TCartItem, index: number) => (
             <CartItem key={index} {...item} />
           ))}
         </div>
@@ -124,7 +120,7 @@ const Cart: React.FC = () => {
           </div>
           <div className="cart__bottom-buttons">
             <Link
-              to={routes.HomePathPage()}
+              to={routes.getHomePathPage()}
               className="button button__outline button__add go-back-btn"
             >
               <svg
@@ -146,7 +142,7 @@ const Cart: React.FC = () => {
               <span>Вернуться назад</span>
             </Link>
             <div className="button pay-btn">
-              <span>Оплатить сейчас</span>
+              <span>К оформлению заказа</span>
             </div>
           </div>
         </div>

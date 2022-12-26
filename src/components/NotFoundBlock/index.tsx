@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 
 import routes from '../../routes';
+
 import styles from './NotFoundBlock.module.scss';
 import NotFoundLogo from '../../assets/images/not-found-logo.png';
 
@@ -11,7 +12,7 @@ const NotFoundBlock: React.FC = () => (
       <h1 className={styles.title}>Мы не нашли эту страницу</h1>
       <span className={styles.titleSub}>Но знаем, где найти много всего вкусного</span>
       <br />
-      <Link className={styles.buttonToMenu} to={routes.HomePathPage()}>
+      <Link className={styles.buttonToMenu} to={routes.getHomePathPage()}>
         Перейти в меню
       </Link>
     </div>

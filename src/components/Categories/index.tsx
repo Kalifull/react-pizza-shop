@@ -1,16 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
+import { memo } from 'react';
 
-import { setCategoryId } from '../../store/slices/filter/filterSlice';
-import { selectFilterState } from '../../store/slices/filter/selectors';
+import { useActions, useAppSelector } from '../../hooks';
+import { selectCategoryId } from '../../store/slices/filter/selectors';
 
 import { categories } from '../../constants';
 
-const Categories: React.FC = () => {
-  const dispatch = useDispatch();
-  const { categoryId } = useSelector(selectFilterState);
+const Categories: React.FC = memo(() => {
+  const { setCategoryId } = useActions();
+
+  const categoryId = useAppSelector(selectCategoryId);
 
   const handleChooseCategory = (id: number) => () => {
-    dispatch(setCategoryId({ category: id }));
+    setCategoryId({ category: id });
   };
 
   return (
@@ -19,7 +21,7 @@ const Categories: React.FC = () => {
         {categories.map(({ category, id }) => (
           <li
             key={id}
-            className={categoryId === id ? 'active' : ''}
+            className={cn({ active: categoryId === id })}
             onClick={handleChooseCategory(id)}
           >
             {category}
@@ -28,6 +30,6 @@ const Categories: React.FC = () => {
       </ul>
     </div>
   );
-};
+});
 
 export default Categories;

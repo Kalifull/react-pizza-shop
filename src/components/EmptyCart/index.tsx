@@ -11,7 +11,7 @@ const EmptyCart: React.FC = () => (
       Ваша корзина пуста, перейдите в «Меню» и выберите понравившийся товар. Мы доставим ваш заказ
       от 549 ₽
     </p>
-    <Link to={routes.HomePathPage()} className="button button--black">
+    <Link to={routes.getHomePathPage()} className="button button--black">
       <span>Вернуться назад</span>
     </Link>
   </div>

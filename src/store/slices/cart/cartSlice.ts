@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { TPayloadItem, CartSliceState } from './types';
+import { TPayloadItem, ICartSliceState } from './types';
 import { findCurrentItem, calcTotalPrice, filterItems } from '../../../utils';
 
-const initialState: CartSliceState = {
+const initialState: ICartSliceState = {
   totalPrice: 0,
   items: [],
 };
@@ -44,6 +44,6 @@ export const cartSlice = createSlice({
   },
 });
 
-export const { addOneItem, deleteOneItem, removeItems, clearAllItems } = cartSlice.actions;
+export const cartActions = cartSlice.actions;
 
 export default cartSlice.reducer;

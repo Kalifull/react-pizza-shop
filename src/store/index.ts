@@ -10,24 +10,23 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-import { useDispatch } from 'react-redux';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
-import cartReducer from './slices/cart/cartSlice';
-import itemReducer from './slices/item/itemSlice';
-import filterReducer from './slices/filter/filterSlice';
+import { productApi } from '../services';
+import { cartReducer, itemReducer, filterReducer } from './slices/rootReducer';
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['filterInfo'],
+  blacklist: ['filterInfo', 'itemsInfo', productApi.reducerPath],
 };
 
 const rootReducer = combineReducers({
   cartInfo: cartReducer,
   itemsInfo: itemReducer,
   filterInfo: filterReducer,
+  [productApi.reducerPath]: productApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -39,13 +38,12 @@ const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }),
+    }).concat(productApi.middleware),
 });
 
-type AppDispatch = typeof store.dispatch;
+export type AppDispatch = typeof store.dispatch;
+export type TypeRootState = ReturnType<typeof store.getState>;
 
-export const useAppDispatch: () => AppDispatch = useDispatch;
 export const persistor = persistStore(store);
-export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

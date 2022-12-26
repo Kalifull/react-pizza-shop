@@ -1,8 +1,10 @@
-import { SortPropertyEnum, SortTypeItem } from '../store/slices/filter/types';
+import { SortPropertyEnum, ISortTypeItem } from '../store/slices/filter/types';
+
+export const delay = 500;
 
 export const itemsPerPage = 4;
 
-export const sortTypes: SortTypeItem[] = [
+export const sortTypes: ISortTypeItem[] = [
   {
     name: 'популярность по убыванию',
     sortProperty: SortPropertyEnum.RATING_DESC,

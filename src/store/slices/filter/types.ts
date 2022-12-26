@@ -18,26 +18,26 @@ export enum SortPropertyEnum {
   TITLE_ASC = 'title',
 }
 
-export interface SortTypeItem {
+export interface ISortTypeItem {
   name: string;
   sortProperty: SortPropertyEnum;
   id: number;
 }
 
-export interface PayloadSortType {
-  sort: SortTypeItem;
+export interface IPayloadSortType {
+  sort: ISortTypeItem;
 }
 
 export interface PayloadFilter {
   category: string;
   search: string;
   page: string;
-  sort: SortTypeItem;
+  sort: ISortTypeItem;
 }
 
 export interface FilterSliceState {
   categoryId: number;
   searchValue: string;
   pageNumber: number;
-  sortType: SortTypeItem;
+  sortType: ISortTypeItem;
 }

@@ -1,13 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import fetchData from '../../../services/fetchItems';
-
 import {
   TPayloadCategory,
   TPayloadSearch,
   TPayloadPage,
   SortPropertyEnum,
-  PayloadSortType,
+  IPayloadSortType,
   PayloadFilter,
   FilterSliceState,
 } from './types';
@@ -29,6 +27,7 @@ export const filterSlice = createSlice({
   reducers: {
     setCategoryId(state, { payload: { category } }: PayloadAction<TPayloadCategory>) {
       state.categoryId = category;
+      state.pageNumber = initialState.pageNumber;
     },
     setSearchValue(state, { payload: { search } }: PayloadAction<TPayloadSearch>) {
       state.searchValue = search;
@@ -36,26 +35,19 @@ export const filterSlice = createSlice({
     setPageCount(state, { payload: { page } }: PayloadAction<TPayloadPage>) {
       state.pageNumber = page;
     },
-    setSortType(state, { payload: { sort } }: PayloadAction<PayloadSortType>) {
+    setSortType(state, { payload: { sort } }: PayloadAction<IPayloadSortType>) {
       state.sortType = sort;
     },
     setFilter(state, { payload }: PayloadAction<PayloadFilter>) {
       const { category, search, page, sort } = payload;
-      // TODO: добавить дефолты
       state.categoryId = +category || initialState.categoryId;
       state.searchValue = search || initialState.searchValue;
       state.pageNumber = +page || initialState.pageNumber;
       state.sortType = sort || initialState.sortType;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchData.fulfilled, (state) => {
-      state.pageNumber = initialState.pageNumber;
-    });
-  },
 });
 
-export const { setCategoryId, setSearchValue, setPageCount, setSortType, setFilter } =
-  filterSlice.actions;
+export const filterActions = filterSlice.actions;
 
 export default filterSlice.reducer;

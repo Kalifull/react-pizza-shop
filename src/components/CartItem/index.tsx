@@ -1,24 +1,24 @@
-import { useDispatch } from 'react-redux';
+import { memo } from 'react';
 
+import { useActions } from '../../hooks';
 import { TCartItem } from '../../store/slices/cart/types';
-import { addOneItem, deleteOneItem, removeItems } from '../../store/slices/cart/cartSlice';
 
-const CartItem: React.FC<TCartItem> = (props) => {
-  const dispatch = useDispatch();
+const CartItem: React.FC<TCartItem> = memo((props) => {
+  const { addOneItem, deleteOneItem, removeItems } = useActions();
 
   const { title, price, imageUrl, type, size, count } = props;
 
   const handleAddOneItem = () => {
-    dispatch(addOneItem({ item: props }));
+    addOneItem({ item: props });
   };
 
   const handleDeleteOneItem = () => {
-    dispatch(deleteOneItem({ item: props }));
+    deleteOneItem({ item: props });
   };
 
   const handleRemoveItems = () => {
     if (window.confirm(`Вы действительно хотите удалить пиццу: «${title}» из корзины?`)) {
-      dispatch(removeItems({ item: props }));
+      removeItems({ item: props });
     }
   };
 
@@ -106,6 +106,6 @@ const CartItem: React.FC<TCartItem> = (props) => {
       </div>
     </div>
   );
-};
+});
 
 export default CartItem;

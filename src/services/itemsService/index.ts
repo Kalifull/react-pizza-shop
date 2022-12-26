@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { ItemsState, TSearchParams } from '../store/slices/item/types';
+import { IStateItems, TSearchParams } from '../../store/slices/item/types';
 
-import routes from '../routes';
+import routes from '../../routes';
 
-const fetchItems = createAsyncThunk<ItemsState[], TSearchParams, { rejectValue: string }>(
-  'items/fetchItems',
+const itemsApi = createAsyncThunk<IStateItems[], TSearchParams, { rejectValue: string }>(
+  'items/itemsApi',
   async (params, { rejectWithValue }) => {
     const { page, category, sortBy, order, search } = params;
+
     try {
-      const { data: items } = await axios.get<ItemsState[]>(
+      const { data: items } = await axios.get<IStateItems[]>(
         `${routes.getItems()}${page}${category}${sortBy}${order}${search}`
       );
+
       return items;
     } catch (error) {
       return error instanceof Error
@@ -22,4 +24,4 @@ const fetchItems = createAsyncThunk<ItemsState[], TSearchParams, { rejectValue: 
   }
 );
 
-export default fetchItems;
+export default itemsApi;

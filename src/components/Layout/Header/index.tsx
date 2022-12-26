@@ -1,23 +1,23 @@
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
-import { selectCartState, selectCountOfItems } from '../../store/slices/cart/selectors';
+import Search from '../../Search';
 
-import Search from '../Search';
+import { useAppSelector } from '../../../hooks';
+import { selectTotalPrice, selectCountOfItems } from '../../../store/slices/cart/selectors';
 
-import routes from '../../routes';
-import PizzaLogo from '../../assets/images/pizza-logo.svg';
+import routes from '../../../routes';
+import PizzaLogo from '../../../assets/images/pizza-logo.svg';
 
 const Header: React.FC = () => {
   const { pathname } = useLocation();
 
-  const { totalPrice } = useSelector(selectCartState);
-  const count = useSelector(selectCountOfItems);
+  const totalPrice = useAppSelector(selectTotalPrice);
+  const count = useAppSelector(selectCountOfItems);
 
   return (
     <div className="header">
       <div className="container">
-        <Link to={routes.HomePathPage()}>
+        <Link to={routes.getHomePathPage()}>
           <div className="header__logo">
             <img width="38" src={PizzaLogo} alt="Pizza logo" />
             <div>
@@ -26,11 +26,11 @@ const Header: React.FC = () => {
             </div>
           </div>
         </Link>
-        {pathname !== routes.CartPathPage() && (
+        {pathname !== routes.getCartPathPage() && (
           <>
             <Search />
             <div className="header__cart">
-              <Link to={routes.CartPathPage()} className="button button__cart">
+              <Link to={routes.getCartPathPage()} className="button button__cart">
                 <span>{totalPrice} ₽</span>
                 <div className="button__delimiter" />
                 <svg

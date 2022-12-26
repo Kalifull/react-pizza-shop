@@ -1,1 +1,1 @@
-import './app.scss';
+export { default as style } from './app.scss';

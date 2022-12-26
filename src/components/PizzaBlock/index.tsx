@@ -1,22 +1,38 @@
+import cn from 'classnames';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 
+import { useActions, useAppSelector } from '../../hooks';
 import { TCartItem } from '../../store/slices/cart/types';
-import { addOneItem } from '../../store/slices/cart/cartSlice';
 import { selectCurrentCountOfItems } from '../../store/slices/cart/selectors';
 
-import { ItemsState } from '../../store/slices/item/types';
+import { IStateItems } from '../../store/slices/item/types';
 
 import routes from '../../routes';
 import { calcPercentPrice } from '../../utils';
 
-const PizzaBlock: React.FC<ItemsState> = ({ title, price, currentId, imageUrl, sizes, types }) => {
-  const dispatch = useDispatch();
+const PizzaBlock: React.FC<IStateItems> = ({ title, price, currentId, imageUrl, sizes, types }) => {
+  const { addOneItem } = useActions();
 
   const [activeType, setActiveType] = useState<number>(0);
   const [activeSize, setActiveSize] = useState<number>(0);
   const [activePrice, setActivePrice] = useState<number>(price);
+
+  const item: TCartItem = {
+    title,
+    imageUrl,
+    id: currentId,
+    price: activePrice,
+    type: types[activeType].type,
+    size: sizes[activeSize].size,
+    count: 0,
+  };
+
+  const handleAddOneItem = () => {
+    addOneItem({ item });
+  };
+
+  const currentCount = useAppSelector(selectCurrentCountOfItems(item));
 
   const handleChooseType = (index: number) => () => {
     setActiveType(index);
@@ -31,25 +47,9 @@ const PizzaBlock: React.FC<ItemsState> = ({ title, price, currentId, imageUrl, s
     }
   };
 
-  const item: TCartItem = {
-    title,
-    imageUrl,
-    id: currentId,
-    price: activePrice,
-    type: types[activeType].type,
-    size: sizes[activeSize].size,
-    count: 0,
-  };
-
-  const handleAddOneItem = () => {
-    dispatch(addOneItem({ item }));
-  };
-
-  const currentCount = useSelector(selectCurrentCountOfItems(item));
-
   return (
     <div className="pizza-block">
-      <Link to={routes.getProductInfoById(currentId)}>
+      <Link to={routes.getProductById(currentId)}>
         <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
         <p className="pizza-block__title">{title}</p>
       </Link>
@@ -58,7 +58,9 @@ const PizzaBlock: React.FC<ItemsState> = ({ title, price, currentId, imageUrl, s
           {sizes.map(({ size, id }, index) => (
             <li
               key={id}
-              className={activeSize === index ? 'active' : ''}
+              className={cn({
+                active: activeSize === index,
+              })}
               onClick={handleChooseSize(index)}
             >
               {size}
@@ -71,7 +73,9 @@ const PizzaBlock: React.FC<ItemsState> = ({ title, price, currentId, imageUrl, s
           {types.map(({ type, id }, index) => (
             <li
               key={id}
-              className={activeType === index ? 'active' : ''}
+              className={cn({
+                active: activeType === index,
+              })}
               onClick={handleChooseType(index)}
             >
               {type}

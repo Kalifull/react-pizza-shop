@@ -12,7 +12,7 @@ export type TPayloadItem = {
   item: TCartItem;
 };
 
-export interface CartSliceState {
+export interface ICartSliceState {
   totalPrice: number;
   items: TCartItem[];
 }

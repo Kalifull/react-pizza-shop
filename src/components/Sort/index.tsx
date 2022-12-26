@@ -1,39 +1,25 @@
-import { useState, useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import cn from 'classnames';
+import { memo } from 'react';
 
-import { SortTypeItem } from '../../store/slices/filter/types';
-import { setSortType } from '../../store/slices/filter/filterSlice';
-import { selectFilterState } from '../../store/slices/filter/selectors';
+import { ISortTypeItem } from '../../store/slices/filter/types';
+import { useActions, useOutside, useAppSelector } from '../../hooks';
+import { selectSortType } from '../../store/slices/filter/selectors';
 
 import { sortTypes } from '../../constants';
 
-const Sort: React.FC = () => {
-  const sortRef = useRef<HTMLDivElement | null>(null);
-  const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+const Sort: React.FC = memo(() => {
+  const { setSortType } = useActions();
+  const { sortRef, isShow, setIsShow } = useOutside(false);
 
-  const {
-    sortType: { name, id },
-  } = useSelector(selectFilterState);
+  const { id, name } = useAppSelector(selectSortType);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
-        setIsOpen(false);
-      }
-    };
-    document.body.addEventListener('click', handleClickOutside);
-
-    return () => document.body.removeEventListener('click', handleClickOutside);
-  }, []);
-
-  const handleOpen = (open: boolean) => () => {
-    setIsOpen(!open);
+  const handleShow = (show: boolean) => () => {
+    setIsShow(!show);
   };
 
-  const handleChooseSortType = (sortType: SortTypeItem) => () => {
-    dispatch(setSortType({ sort: sortType }));
-    setIsOpen(false);
+  const handleChooseSort = (sortType: ISortTypeItem) => () => {
+    setSortType({ sort: sortType });
+    setIsShow(false);
   };
 
   return (
@@ -52,16 +38,16 @@ const Sort: React.FC = () => {
             fill="#2C2C2C"
           />
         </svg>
-        <span onClick={handleOpen(isOpen)}>{name}</span>
+        <span onClick={handleShow(isShow)}>{name}</span>
       </div>
-      {isOpen && (
+      {isShow && (
         <div className="sort__popup">
           <ul>
             {sortTypes.map((sortType) => (
               <li
                 key={sortType.id}
-                className={sortType.id === id ? 'active' : ''}
-                onClick={handleChooseSortType(sortType)}
+                className={cn({ active: sortType.id === id })}
+                onClick={handleChooseSort(sortType)}
               >
                 {sortType.name}
               </li>
@@ -71,6 +57,6 @@ const Sort: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;
