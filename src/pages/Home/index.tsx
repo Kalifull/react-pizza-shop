@@ -16,10 +16,10 @@ import {
   selectSearchValue,
   selectPageNumber,
   selectSortByType,
-} from '../../store/slices/filter/selectors';
+} from '../../store/reducers/filter/selectors';
 
-import { IStateItems, TSearchParams } from '../../store/slices/item/types';
-import { selectItemsState } from '../../store/slices/item/selectors';
+import { IStateItems, TSearchParams } from '../../store/reducers/item/types';
+import { selectItemsState } from '../../store/reducers/item/selectors';
 
 import { calcCurrentItem } from '../../utils';
 import { sortTypes, itemsPerPage } from '../../constants';

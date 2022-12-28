@@ -13,7 +13,7 @@ import storage from 'redux-persist/lib/storage';
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 
 import { productApi } from '../services';
-import { cartReducer, itemReducer, filterReducer } from './slices/rootReducer';
+import { cartReducer, itemReducer, filterReducer } from './reducers/rootReducer';
 
 const persistConfig = {
   key: 'root',

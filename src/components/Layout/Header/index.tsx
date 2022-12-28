@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Search from '../../Search';
 
 import { useAppSelector } from '../../../hooks';
-import { selectTotalPrice, selectCountOfItems } from '../../../store/slices/cart/selectors';
+import { selectTotalPrice, selectCountOfItems } from '../../../store/reducers/cart/selectors';
 
 import routes from '../../../routes';
 import PizzaLogo from '../../../assets/images/pizza-logo.svg';

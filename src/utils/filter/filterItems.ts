@@ -1,4 +1,4 @@
-import { ICartSliceState, TCartItem } from '../../store/slices/cart/types';
+import { ICartSliceState, TCartItem } from '../../store/reducers/cart/types';
 
 export const filterItems = ({ items }: ICartSliceState, currentItem: TCartItem) =>
   items.filter(

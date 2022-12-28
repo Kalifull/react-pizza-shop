@@ -3,8 +3,8 @@ import { bindActionCreators } from '@reduxjs/toolkit';
 import { itemsApi } from '../../services';
 import useAppDispatch from '../useAppDispatchHook';
 
-import { cartActions } from '../../store/slices/cart/cartSlice';
-import { filterActions } from '../../store/slices/filter/filterSlice';
+import { cartActions } from '../../store/reducers/cart/cartSlice';
+import { filterActions } from '../../store/reducers/filter/filterSlice';
 
 const allActions = {
   itemsApi,

@@ -4,5 +4,5 @@ export default {
   getNotFoundPathPage: () => '*',
   getProductPathPage: () => '/product/:id',
   getProductById: (id: string) => `/product/${id}`,
-  getItems: () => process.env.REACT_APP_PUBLIC_URL,
+  getItems: () => 'https://6380e160786e112fe1bce82e.mockapi.io/items',
 };

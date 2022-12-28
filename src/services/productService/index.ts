@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { IStateItems } from '../../store/slices/item/types';
+import { IStateItems } from '../../store/reducers/item/types';
 
 import routes from '../../routes';
 

@@ -2,7 +2,7 @@ import cn from 'classnames';
 import { memo } from 'react';
 
 import { useActions, useAppSelector } from '../../hooks';
-import { selectCategoryId } from '../../store/slices/filter/selectors';
+import { selectCategoryId } from '../../store/reducers/filter/selectors';
 
 import { categories } from '../../constants';
 

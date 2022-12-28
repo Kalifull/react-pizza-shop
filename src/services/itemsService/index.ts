@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { IStateItems, TSearchParams } from '../../store/slices/item/types';
+import { IStateItems, TSearchParams } from '../../store/reducers/item/types';
 
 import routes from '../../routes';
 

@@ -1,9 +1,9 @@
 import cn from 'classnames';
 import { memo } from 'react';
 
-import { ISortTypeItem } from '../../store/slices/filter/types';
+import { ISortTypeItem } from '../../store/reducers/filter/types';
 import { useActions, useOutside, useAppSelector } from '../../hooks';
-import { selectSortType } from '../../store/slices/filter/selectors';
+import { selectSortType } from '../../store/reducers/filter/selectors';
 
 import { sortTypes } from '../../constants';
 

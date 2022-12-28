@@ -1,7 +1,7 @@
 import { memo } from 'react';
 
-import { useActions } from '../../hooks';
-import { TCartItem } from '../../store/slices/cart/types';
+import { useActions } from '../../../hooks';
+import { TCartItem } from '../../../store/reducers/cart/types';
 
 const CartItem: React.FC<TCartItem> = memo((props) => {
   const { addOneItem, deleteOneItem, removeItems } = useActions();

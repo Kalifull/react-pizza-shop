@@ -1,4 +1,4 @@
-import { SortPropertyEnum, ISortTypeItem } from '../store/slices/filter/types';
+import { SortPropertyEnum, ISortTypeItem } from '../store/reducers/filter/types';
 
 export const delay = 500;
 

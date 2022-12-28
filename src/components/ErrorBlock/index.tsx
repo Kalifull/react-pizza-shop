@@ -1,5 +1,5 @@
 import { useAppSelector } from '../../hooks';
-import { selectItemsState } from '../../store/slices/item/selectors';
+import { selectItemsState } from '../../store/reducers/item/selectors';
 
 const ErrorBlock: React.FC = () => {
   const { error } = useAppSelector(selectItemsState);

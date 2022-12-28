@@ -1,4 +1,4 @@
-import { IStateItems } from '../../store/slices/item/types';
+import { IStateItems } from '../../store/reducers/item/types';
 
 const calcCurrentItem = (items: IStateItems[], itemsPerPage: number, pageNumber: number) => {
   const endOffset = pageNumber * itemsPerPage;

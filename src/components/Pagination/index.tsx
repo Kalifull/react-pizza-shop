@@ -1,21 +1,22 @@
+import { memo, useMemo } from 'react';
 import ReactPaginate from 'react-paginate';
 
 import { useActions, useAppSelector } from '../../hooks';
-import { selectItemsState } from '../../store/slices/item/selectors';
-import { selectPageNumber } from '../../store/slices/filter/selectors';
+import { selectItemsState } from '../../store/reducers/item/selectors';
+import { selectPageNumber } from '../../store/reducers/filter/selectors';
 
 import { calcPageCount } from '../../utils';
 import { itemsPerPage } from '../../constants';
 
 import styles from './Pagination.module.scss';
 
-const Pagination: React.FC = () => {
+const Pagination: React.FC = memo(() => {
   const { setPageCount } = useActions();
 
   const { items } = useAppSelector(selectItemsState);
   const pageNumber = useAppSelector(selectPageNumber);
 
-  const pageCount = calcPageCount(items, itemsPerPage);
+  const pageCount = useMemo(() => calcPageCount(items, itemsPerPage), [items.length]);
 
   const handlePageChange = (pageId: number) => {
     setPageCount({ page: pageId + 1 });
@@ -34,6 +35,6 @@ const Pagination: React.FC = () => {
       renderOnZeroPageCount={() => null}
     />
   );
-};
+});
 
 export default Pagination;
