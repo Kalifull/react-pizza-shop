@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { bindActionCreators } from '@reduxjs/toolkit';
 
 import { itemsApi } from '../../services';
@@ -14,7 +15,7 @@ const allActions = {
 
 const useActions = () => {
   const dispatch = useAppDispatch();
-  return bindActionCreators(allActions, dispatch);
+  return useMemo(() => bindActionCreators(allActions, dispatch), [dispatch]);
 };
 
 export default useActions;

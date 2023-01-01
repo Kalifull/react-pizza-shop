@@ -11,7 +11,7 @@ export const sortTypes: ISortTypeItem[] = [
     id: 0,
   },
   {
-    name: 'популярность по возврастанию',
+    name: 'популярность по возрастанию',
     sortProperty: SortPropertyEnum.RATING_ASC,
     id: 1,
   },
@@ -21,7 +21,7 @@ export const sortTypes: ISortTypeItem[] = [
     id: 2,
   },
   {
-    name: 'цена по возврастанию',
+    name: 'цена по возрастанию',
     sortProperty: SortPropertyEnum.PRICE_ASC,
     id: 3,
   },
